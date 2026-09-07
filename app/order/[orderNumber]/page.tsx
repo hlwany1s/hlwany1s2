@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 
 type OrderState = {
@@ -10,7 +10,7 @@ type OrderState = {
   itunesCode: string | null;
 } | null;
 
-export default function OrderStatusPage() {
+function OrderStatusInner() {
   const { orderNumber } = useParams<{ orderNumber: string }>();
   const token = useSearchParams().get("t");
   const [order, setOrder] = useState<OrderState>(null);
@@ -30,7 +30,6 @@ export default function OrderStatusPage() {
       const data = await res.json();
       if (!cancelled) setOrder(data);
 
-      // لسه مستنيين تأكيد الـ webhook — نكمل نسأل كل 3 ثواني
       if (!cancelled && data.paymentStatus === "pending") {
         setTimeout(poll, 3000);
       }
@@ -74,7 +73,6 @@ export default function OrderStatusPage() {
     );
   }
 
-  // paid
   return (
     <main className="max-w-md mx-auto px-5 py-16 text-center">
       <div className="w-14 h-14 rounded-full bg-mint/10 border border-mint/40 flex items-center justify-center mx-auto mb-4 text-2xl">
@@ -96,5 +94,13 @@ export default function OrderStatusPage() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function OrderStatusPage() {
+  return (
+    <Suspense fallback={<main className="max-w-md mx-auto px-5 py-16 text-center text-dim">جاري التحميل...</main>}>
+      <OrderStatusInner />
+    </Suspense>
   );
 }
