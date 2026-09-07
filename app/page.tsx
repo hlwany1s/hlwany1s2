@@ -1,15 +1,21 @@
 import Link from "next/link";
 import { createServerSupabase } from "@/lib/supabase/server";
 
-export const revalidate = 0; // دايمًا آخر بيانات، مفيش cache قديم للأسعار
+export const dynamic = "force-dynamic"; // متحاولش تتصل بـ Supabase وقت البناء، بس وقت الطلب الفعلي
+export const revalidate = 0;
 
 export default async function HomePage() {
   const supabase = createServerSupabase();
-  const { data: products } = await supabase
+  const { data: products, error } = await supabase
     .from("products")
     .select("id, name, category_face_value, price, featured")
     .eq("active", true)
     .order("sort_order", { ascending: true });
+
+  if (error) {
+    console.error("Supabase products query error:", JSON.stringify(error));
+  }
+  console.log("Products fetched:", products?.length ?? 0);
 
   return (
     <main className="max-w-5xl mx-auto px-5 pb-20">
