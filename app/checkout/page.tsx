@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function CheckoutPage() {
+function CheckoutForm() {
   const params = useSearchParams();
   const productId = params.get("productId") ?? "";
 
@@ -33,7 +33,6 @@ export default function CheckoutPage() {
         return;
       }
 
-      // تحويل العميل لصفحة دفع بايموب — مش تأكيد نجاح، مجرد بداية عملية الدفع
       window.location.href = data.paymentUrl;
     } catch {
       setError("تعذر الاتصال بالسيرفر");
@@ -92,5 +91,13 @@ export default function CheckoutPage() {
         </button>
       </form>
     </main>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<main className="max-w-md mx-auto px-5 py-16 text-center text-dim">جاري التحميل...</main>}>
+      <CheckoutForm />
+    </Suspense>
   );
 }
