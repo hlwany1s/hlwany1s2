@@ -6,12 +6,6 @@ import type {
   WebhookVerificationResult,
 } from "../types";
 
-/**
- * ترتيب الحقول ده محدد من بايموب نفسها لحساب الـ HMAC بتاع الـ webhook
- * الخاص بـ "Transaction Processed Callback". لو بايموب غيّرت الترتيب ده
- * في التوثيق بتاعها مستقبلاً، لازم يتحدث هنا بالظبط بنفس الترتيب الجديد.
- * المرجع: Paymob Accept docs → HMAC Calculation
- */
 const HMAC_FIELDS_ORDER = [
   "amount_cents",
   "created_at",
@@ -56,10 +50,16 @@ export const paymobProvider: PaymentProvider = {
 
   async createPayment(input: CreatePaymentInput): Promise<CreatePaymentResult> {
     const { secretKey } = await getAuthToken();
-    const integrationId = process.env.PAYMOB_INTEGRATION_ID;
+
+    const integrationIds = (process.env.PAYMOB_INTEGRATION_ID ?? "")
+      .split(",")
+      .map((id) => id.trim())
+      .filter(Boolean)
+      .map(Number);
+
     const publicKey = process.env.PAYMOB_PUBLIC_KEY;
 
-    if (!integrationId || !publicKey) {
+    if (integrationIds.length === 0 || !publicKey) {
       throw new Error("PAYMOB_INTEGRATION_ID / PAYMOB_PUBLIC_KEY missing from environment");
     }
 
@@ -74,7 +74,7 @@ export const paymobProvider: PaymentProvider = {
       body: JSON.stringify({
         amount: amountCents,
         currency: "EGP",
-        payment_methods: [Number(integrationId)],
+        payment_methods: integrationIds,
         items: [
           {
             name: `طلب ${input.orderNumber}`,
@@ -87,7 +87,6 @@ export const paymobProvider: PaymentProvider = {
           last_name: "-",
           phone_number: input.customerPhone,
           email: input.customerEmail || "customer@7lwany.store",
-          // باقي حقول العنوان مطلوبة شكليًا من بايموب لمنتجات رقمية، بنبعتها NA
           street: "NA",
           building: "NA",
           floor: "NA",
