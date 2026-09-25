@@ -51,11 +51,13 @@ export const paymobProvider: PaymentProvider = {
   async createPayment(input: CreatePaymentInput): Promise<CreatePaymentResult> {
     const { secretKey } = await getAuthToken();
 
+    console.log("RAW PAYMOB_INTEGRATION_ID env value:", JSON.stringify(process.env.PAYMOB_INTEGRATION_ID));
     const integrationIds = (process.env.PAYMOB_INTEGRATION_ID ?? "")
       .split(",")
       .map((id) => id.trim())
       .filter(Boolean)
       .map(Number);
+    console.log("Parsed integration IDs sent to Paymob:", integrationIds);
 
     const publicKey = process.env.PAYMOB_PUBLIC_KEY;
 
@@ -105,10 +107,12 @@ export const paymobProvider: PaymentProvider = {
 
     if (!res.ok) {
       const text = await res.text();
+      console.error("Paymob intention request failed:", res.status, text);
       throw new Error(`Paymob intention request failed: ${res.status} ${text}`);
     }
 
     const data = await res.json();
+    console.log("Paymob intention response:", JSON.stringify(data));
     const clientSecret = data.client_secret;
 
     return {
