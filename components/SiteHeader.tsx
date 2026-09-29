@@ -22,10 +22,10 @@ export function SiteHeader() {
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <span className="font-extrabold">7lwany Store</span>
           <img
-            src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
-            alt="7lwany Store"
-            className="w-9 h-9 rounded-lg"
-          />
+  src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
+  alt="7lwany Store"
+  className="w-11 h-11 sm:w-12 sm:h-12 rounded-lg object-cover flex-shrink-0"
+/>
         </Link>
 
         <Link
