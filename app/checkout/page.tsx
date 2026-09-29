@@ -3,33 +3,32 @@
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
+const inputSafeStyle: React.CSSProperties = {
+  backgroundColor: "#0a2b26",
+  color: "#f2fbf8",
+  WebkitTextFillColor: "#f2fbf8",
+};
+
 function CheckoutForm() {
   const params = useSearchParams();
   const productId = params.get("productId") ?? "";
-  const productName = params.get("name") ?? "";
-  const productPrice = params.get("price") ?? "";
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError("");
+    setError(null);
     setLoading(true);
 
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId,
-          customerName: name,
-          customerPhone: phone,
-          customerEmail: email,
-        }),
+        body: JSON.stringify({ productId, customerName: name, customerPhone: phone, customerEmail: email }),
       });
 
       const data = await res.json();
@@ -41,107 +40,76 @@ function CheckoutForm() {
       }
 
       window.location.href = data.paymentUrl;
-    } catch (err) {
-      setError("حصل خطأ في الاتصال، حاول تاني");
+    } catch {
+      setError("تعذر الاتصال بالسيرفر");
       setLoading(false);
     }
   }
 
   return (
-    <main dir="rtl" style={{ maxWidth: 480, margin: "0 auto", padding: "32px 16px" }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: "#1f4438", marginBottom: 8 }}>
-        إتمام الطلب
-      </h1>
-      {productName && (
-        <p style={{ color: "#4b5563", marginBottom: 24 }}>
-          {decodeURIComponent(productName)} {productPrice && `— ${productPrice} ج.م`}
-        </p>
-      )}
+    <main className="max-w-md mx-auto px-5 py-10">
+      <h1 className="text-xl font-extrabold mb-6">إتمام الطلب</h1>
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: 16 }}>
-          <label style={{ display: "block", marginBottom: 6, fontSize: 14, color: "#374151" }}>
-            الاسم
-          </label>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div>
+          <label className="text-xs text-dim mb-1 block">الاسم</label>
           <input
-            type="text"
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="اسمك بالكامل"
-            style={inputStyle}
+            className="w-full bg-panel border border-line rounded-xl px-4 py-3 text-sm outline-none focus:border-mint"
+            style={inputSafeStyle}
+            placeholder="اسمك"
           />
         </div>
 
-        <div style={{ marginBottom: 16 }}>
-          <label style={{ display: "block", marginBottom: 6, fontSize: 14, color: "#374151" }}>
-            رقم الموبايل
-          </label>
+        <div>
+          <label className="text-xs text-dim mb-1 block">رقم الواتساب</label>
           <input
-            type="tel"
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            className="w-full bg-panel border border-line rounded-xl px-4 py-3 text-sm outline-none focus:border-mint"
+            style={inputSafeStyle}
             placeholder="01xxxxxxxxx"
-            style={inputStyle}
+            dir="ltr"
           />
         </div>
 
-        <div style={{ marginBottom: 16 }}>
-          <label style={{ display: "block", marginBottom: 6, fontSize: 14, color: "#374151" }}>
-            الإيميل <span style={{ color: "#dc2626" }}>*</span>
+        <div>
+          <label className="text-xs text-dim mb-1 block">
+            الإيميل <span className="text-coral">*</span>
           </label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="هيتبعتلك الكود عليه"
-            style={inputStyle}
+            className="w-full bg-panel border border-line rounded-xl px-4 py-3 text-sm outline-none focus:border-mint"
+            style={inputSafeStyle}
+            placeholder="هيتبعتلك الكود على الإيميل ده"
+            dir="ltr"
           />
-          <p style={{ fontSize: 12, color: "#6b7280", marginTop: 4 }}>
-            الكود هيتبعتلك على الإيميل ده، اكتبه صح.
-          </p>
+          <p className="text-dim text-[11px] mt-1">الإيميل مطلوب — الكود هيوصلك عليه بعد الدفع.</p>
         </div>
 
-        {error && (
-          <p style={{ color: "#dc2626", fontSize: 14, marginBottom: 16 }}>{error}</p>
-        )}
+        {error && <p className="text-coral text-sm">{error}</p>}
 
         <button
           type="submit"
-          disabled={loading}
-          style={{
-            width: "100%",
-            padding: "14px",
-            borderRadius: 10,
-            border: "none",
-            background: loading ? "#9ca3af" : "#2f5d50",
-            color: "#fff",
-            fontSize: 16,
-            fontWeight: 700,
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
+          disabled={loading || !productId}
+          className="bg-mint text-[#0d0018] font-extrabold py-3 rounded-xl disabled:opacity-50"
         >
-          {loading ? "جاري التحويل..." : "ادفع دلوقتي"}
+          {loading ? "جاري التحويل..." : "ادفع الآن"}
         </button>
       </form>
     </main>
   );
 }
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "12px 14px",
-  borderRadius: 10,
-  border: "1px solid #d1d5db",
-  fontSize: 15,
-  outline: "none",
-};
-
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<main style={{ padding: 32, textAlign: "center" }}>جاري التحميل...</main>}>
+    <Suspense fallback={<main className="max-w-md mx-auto px-5 py-16 text-center text-dim">جاري التحميل...</main>}>
       <CheckoutForm />
     </Suspense>
   );
