@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { CartProvider } from "@/lib/cart/CartContext";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const metadata: Metadata = {
   title: "7lwany Store — بطاقات آيتونز مصر",
@@ -16,7 +19,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="font-cairo min-h-screen">{children}</body>
+      <body className="font-cairo min-h-screen flex flex-col">
+        <CartProvider>
+          <SiteHeader />
+          <div className="flex-1">{children}</div>
+          <SiteFooter />
+        </CartProvider>
+      </body>
     </html>
   );
 }
