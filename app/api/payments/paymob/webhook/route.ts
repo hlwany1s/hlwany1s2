@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const payload = await req.json();
-    const verification = await paymobProvider.verifyWebhook(payload, req.headers);
+  const verification = await paymobProvider.verifyWebhook(payload, Object.fromEntries(req.headers.entries()));
 
     if (!verification.valid) {
       console.error("Webhook HMAC verification failed");
