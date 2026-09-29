@@ -18,6 +18,12 @@ export async function POST(req: NextRequest) {
     }
 
     const { orderNumber, providerReference, amountEGP, status } = verification;
+        const { orderNumber, providerReference, amountEGP, status } = verification;
+
+    if (amountEGP == null) {
+      console.error("Webhook: amountEGP missing from verification result");
+      return NextResponse.json({ error: "invalid amount" }, { status: 400 });
+    }
 
     const { data: existingPayment } = await supabase
       .from("payments")
