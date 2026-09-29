@@ -71,40 +71,68 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true });
     }
 
-    // order_items معندهاش عمود category_face_value، فبنجيبها من products
-    // عن طريق product_id المربوط بالـ order_item
-    const { data: itemRow } = await supabase
+    // نجيب كل سطور الأوردر (ممكن يبقى فيها أكتر من فئة وأكتر من كمية)
+    const { data: orderItems, error: itemsFetchError } = await supabase
       .from("order_items")
-      .select("product_name_snapshot, products(category_face_value)")
-      .eq("order_id", order.id)
-      .single();
+      .select("id, product_name_snapshot, quantity, products(category_face_value)")
+      .eq("order_id", order.id);
 
-    const productInfo = itemRow?.products as unknown as { category_face_value: number } | null;
-    const category = String(productInfo?.category_face_value ?? "");
-    const productName = itemRow?.product_name_snapshot ?? `بطاقة ${category} ج.م`;
-
-    const { data: claimedCode, error: claimError } = await supabase.rpc(
-      "claim_itunes_code",
-      { p_category: category, p_order_number: order.order_number }
-    );
-
-    if (claimError) {
-      console.error("claim_itunes_code error:", JSON.stringify(claimError));
+    if (itemsFetchError || !orderItems || orderItems.length === 0) {
+      console.error("Webhook: order items not found", JSON.stringify(itemsFetchError));
+      return NextResponse.json({ error: "order items not found" }, { status: 404 });
     }
 
-    if (!claimedCode) {
-      console.error(
-        `Payment succeeded for order ${order.order_number} but no stock available (category ${category})`
-      );
+    let anyMissingStock = false;
+    const emailLines: { productName: string; codes: string[] }[] = [];
+
+    for (const item of orderItems) {
+      const productInfo = item.products as unknown as { category_face_value: number } | null;
+      const category = String(productInfo?.category_face_value ?? "");
+      const codes: string[] = [];
+
+      // بنسحب كود لكل وحدة في الكمية المطلوبة، كل سحبة Race-safe لوحدها
+      for (let i = 0; i < item.quantity; i++) {
+        const { data: claimedCode, error: claimError } = await supabase.rpc(
+          "claim_itunes_code",
+          { p_category: category, p_order_number: order.order_number }
+        );
+
+        if (claimError) {
+          console.error("claim_itunes_code error:", JSON.stringify(claimError));
+        }
+
+        if (!claimedCode) {
+          anyMissingStock = true;
+          console.error(
+            `Payment succeeded for order ${order.order_number} but ran out of stock mid-fulfillment (category ${category})`
+          );
+          break;
+        }
+
+        codes.push(claimedCode as string);
+      }
+
+      if (codes.length > 0) {
+        await supabase.from("order_items").update({ codes }).eq("id", item.id);
+      }
+
+      emailLines.push({
+        productName: item.product_name_snapshot,
+        codes,
+      });
+    }
+
+    if (anyMissingStock) {
       await supabase
         .from("orders")
         .update({
           payment_status: "paid",
           order_status: "paid",
-          customer_notes: "الدفع تم بنجاح لكن مفيش كود متاح دلوقتي — محتاج متابعة يدوية فورية",
+          customer_notes:
+            "الدفع تم بنجاح لكن بعض الأكواد مفيش لها ستوك كافي — محتاج متابعة يدوية فورية",
         })
         .eq("id", order.id);
-      return NextResponse.json({ ok: true, warning: "paid_no_stock" });
+      return NextResponse.json({ ok: true, warning: "paid_partial_stock" });
     }
 
     await supabase
@@ -112,7 +140,6 @@ export async function POST(req: NextRequest) {
       .update({
         payment_status: "paid",
         order_status: "completed",
-        itunes_code: claimedCode,
       })
       .eq("id", order.id);
 
@@ -121,11 +148,10 @@ export async function POST(req: NextRequest) {
         to: order.customer_email,
         customerName: order.customer_name,
         orderNumber: order.order_number,
-        productName,
-        code: claimedCode,
+        items: emailLines,
       });
       if (!sent) {
-        console.error(`Failed to email code for order ${order.order_number}`);
+        console.error(`Failed to email codes for order ${order.order_number}`);
       }
     }
 
