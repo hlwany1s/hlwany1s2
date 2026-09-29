@@ -3,11 +3,17 @@
 import { Suspense, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 
+type OrderItem = {
+  productName: string;
+  quantity: number;
+  codes: string[];
+};
+
 type OrderState = {
   paymentStatus: string;
   orderStatus: string;
   total: number;
-  itunesCode: string | null;
+  items: OrderItem[];
 } | null;
 
 function OrderStatusInner() {
@@ -73,6 +79,8 @@ function OrderStatusInner() {
     );
   }
 
+  const hasCodes = order.items.some((i) => i.codes.length > 0);
+
   return (
     <main className="max-w-md mx-auto px-5 py-16 text-center">
       <div className="w-14 h-14 rounded-full bg-mint/10 border border-mint/40 flex items-center justify-center mx-auto mb-4 text-2xl">
@@ -83,10 +91,23 @@ function OrderStatusInner() {
         {orderNumber}
       </div>
 
-      {order.itunesCode ? (
-        <div className="bg-[#150409] border border-coral/40 rounded-2xl p-5">
-          <div className="text-xs text-dim mb-2">كودك جاهز</div>
-          <div className="font-black text-lg tracking-widest text-coral break-all">{order.itunesCode}</div>
+      {hasCodes ? (
+        <div className="flex flex-col gap-3 text-right">
+          {order.items.map((item, idx) => (
+            <div key={idx} className="bg-[#150409] border border-coral/40 rounded-2xl p-4">
+              <div className="text-xs text-dim mb-2">{item.productName}</div>
+              <div className="flex flex-col gap-2">
+                {item.codes.map((code, cIdx) => (
+                  <div
+                    key={cIdx}
+                    className="font-black text-base tracking-widest text-coral break-all text-center"
+                  >
+                    {code}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         <div className="bg-panel border border-line rounded-2xl p-5 text-sm text-dim">
