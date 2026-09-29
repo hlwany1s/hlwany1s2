@@ -77,7 +77,9 @@ export async function POST(req: NextRequest) {
         customer_name: customerName,
         customer_phone: customerPhone,
         customer_email: customerEmail,
-        total_price: product.price,
+        subtotal: product.price,
+        discount: 0,
+        total: product.price,
         payment_status: "pending",
         order_status: "pending",
       })
@@ -95,10 +97,10 @@ export async function POST(req: NextRequest) {
     const { error: itemError } = await supabase.from("order_items").insert({
       order_id: order.id,
       product_id: product.id,
-      product_name: product.name,
-      category_face_value: product.category_face_value,
+      product_name_snapshot: product.name,
       unit_price: product.price,
       quantity: 1,
+      total: product.price,
     });
 
     if (itemError) {
