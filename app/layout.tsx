@@ -3,6 +3,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart/CartContext";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { SupportButton } from "@/components/SupportButton";
 
 export const metadata: Metadata = {
   title: "7lwany Store — بطاقات آيتونز مصر",
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteHeader />
           <div className="flex-1">{children}</div>
           <SiteFooter />
+          <SupportButton />
         </CartProvider>
       </body>
     </html>
