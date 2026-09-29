@@ -1,7 +1,8 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import Link from "next/link";
+import { useCart } from "@/lib/cart/CartContext";
 
 const inputSafeStyle: React.CSSProperties = {
   backgroundColor: "#0a2b26",
@@ -9,15 +10,24 @@ const inputSafeStyle: React.CSSProperties = {
   WebkitTextFillColor: "#f2fbf8",
 };
 
-function CheckoutForm() {
-  const params = useSearchParams();
-  const productId = params.get("productId") ?? "";
-
+export default function CheckoutPage() {
+  const { items, subtotal, clear } = useCart();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  if (items.length === 0) {
+    return (
+      <main className="max-w-md mx-auto px-5 py-16 text-center">
+        <p className="text-dim text-sm mb-6">السلة فاضية، ارجع تصفح الفئات الأول.</p>
+        <Link href="/" className="inline-block bg-mint text-[#0d0018] font-extrabold py-3 px-6 rounded-xl">
+          تصفح الفئات
+        </Link>
+      </main>
+    );
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -28,7 +38,12 @@ function CheckoutForm() {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId, customerName: name, customerPhone: phone, customerEmail: email }),
+        body: JSON.stringify({
+          customerName: name,
+          customerPhone: phone,
+          customerEmail: email,
+          items: items.map((i) => ({ productId: i.productId, quantity: i.quantity })),
+        }),
       });
 
       const data = await res.json();
@@ -39,6 +54,7 @@ function CheckoutForm() {
         return;
       }
 
+      clear();
       window.location.href = data.paymentUrl;
     } catch {
       setError("تعذر الاتصال بالسيرفر");
@@ -48,7 +64,20 @@ function CheckoutForm() {
 
   return (
     <main className="max-w-md mx-auto px-5 py-10">
-      <h1 className="text-xl font-extrabold mb-6">إتمام الطلب</h1>
+      <h1 className="text-xl font-extrabold mb-4">إتمام الطلب</h1>
+
+      <div className="bg-panel border border-line rounded-xl p-4 mb-6">
+        {items.map((item) => (
+          <div key={item.productId} className="flex items-center justify-between text-sm py-1">
+            <span>{item.name} × {item.quantity}</span>
+            <span className="font-extrabold">{item.price * item.quantity} ج.م</span>
+          </div>
+        ))}
+        <div className="flex items-center justify-between text-sm pt-2 mt-2 border-t border-line">
+          <span className="text-dim">الإجمالي</span>
+          <span className="font-extrabold text-mint">{subtotal} ج.م</span>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div>
@@ -97,20 +126,12 @@ function CheckoutForm() {
 
         <button
           type="submit"
-          disabled={loading || !productId}
+          disabled={loading}
           className="bg-mint text-[#0d0018] font-extrabold py-3 rounded-xl disabled:opacity-50"
         >
           {loading ? "جاري التحويل..." : "ادفع الآن"}
         </button>
       </form>
     </main>
-  );
-}
-
-export default function CheckoutPage() {
-  return (
-    <Suspense fallback={<main className="max-w-md mx-auto px-5 py-16 text-center text-dim">جاري التحميل...</main>}>
-      <CheckoutForm />
-    </Suspense>
   );
 }
