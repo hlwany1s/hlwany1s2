@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { paymobProvider } from "@/lib/payments/paymob";
 import { sendCodeEmail } from "@/lib/email/resend";
+
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
@@ -49,8 +50,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "order not found" }, { status: 404 });
     }
 
-    if (Math.round(order.total_price * 100) !== Math.round(amountEGP * 100)) {
-      console.error("Webhook: amount mismatch", order.total_price, amountEGP);
+    if (Math.round(order.total * 100) !== Math.round(amountEGP * 100)) {
+      console.error("Webhook: amount mismatch", order.total, amountEGP);
       return NextResponse.json({ error: "amount mismatch" }, { status: 400 });
     }
 
@@ -62,21 +63,25 @@ export async function POST(req: NextRequest) {
       status,
     });
 
-        if ((status as string) !== "success") {
+    if ((status as string) !== "success") {
       await supabase
         .from("orders")
-        .update({ payment_status: "failed", order_status: "failed" })
+        .update({ payment_status: "failed", order_status: "cancelled" })
         .eq("id", order.id);
       return NextResponse.json({ ok: true });
     }
 
+    // order_items معندهاش عمود category_face_value، فبنجيبها من products
+    // عن طريق product_id المربوط بالـ order_item
     const { data: itemRow } = await supabase
       .from("order_items")
-      .select("category_face_value, product_name")
+      .select("product_name_snapshot, products(category_face_value)")
       .eq("order_id", order.id)
       .single();
 
-    const category = String(itemRow?.category_face_value ?? "");
+    const productInfo = itemRow?.products as { category_face_value: number } | null;
+    const category = String(productInfo?.category_face_value ?? "");
+    const productName = itemRow?.product_name_snapshot ?? `بطاقة ${category} ج.م`;
 
     const { data: claimedCode, error: claimError } = await supabase.rpc(
       "claim_itunes_code",
@@ -93,7 +98,11 @@ export async function POST(req: NextRequest) {
       );
       await supabase
         .from("orders")
-        .update({ payment_status: "paid", order_status: "paid_no_stock" })
+        .update({
+          payment_status: "paid",
+          order_status: "paid",
+          customer_notes: "الدفع تم بنجاح لكن مفيش كود متاح دلوقتي — محتاج متابعة يدوية فورية",
+        })
         .eq("id", order.id);
       return NextResponse.json({ ok: true, warning: "paid_no_stock" });
     }
@@ -102,7 +111,7 @@ export async function POST(req: NextRequest) {
       .from("orders")
       .update({
         payment_status: "paid",
-        order_status: "paid",
+        order_status: "completed",
         itunes_code: claimedCode,
       })
       .eq("id", order.id);
@@ -112,7 +121,7 @@ export async function POST(req: NextRequest) {
         to: order.customer_email,
         customerName: order.customer_name,
         orderNumber: order.order_number,
-        productName: itemRow?.product_name ?? `بطاقة ${category} ج.م`,
+        productName,
         code: claimedCode,
       });
       if (!sent) {
