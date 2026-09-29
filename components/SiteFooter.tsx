@@ -35,31 +35,36 @@ const SOCIAL_LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="max-w-5xl mx-auto px-5 py-10 mt-10 border-t border-line">
-      <div className="flex flex-col items-center gap-4">
-        <img
-          src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
-          alt="7lwany Store"
-          className="w-10 h-10 rounded-xl"
-        />
-        <div className="flex items-center gap-3">
-          {SOCIAL_LINKS.map((s) => (
-            <a
-              key={s.name}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={s.name}
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition hover:opacity-80"
-              style={{ background: s.bg }}
-            >
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="#ffffff">
-                {s.svg}
-              </svg>
-            </a>
-          ))}
+    <footer style={{ width: "100%", borderTop: "1px solid rgba(25,246,167,.10)" }}>
+      <div
+        className="max-w-5xl mx-auto"
+        style={{ width: "100%", boxSizing: "border-box", padding: "40px 20px" }}
+      >
+        <div className="flex flex-col items-center gap-4">
+          <img
+            src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
+            alt="7lwany Store"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0"
+          />
+          <div className="flex items-center gap-3">
+            {SOCIAL_LINKS.map((s) => (
+              <a
+                key={s.name}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.name}
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition hover:opacity-80"
+                style={{ background: s.bg }}
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#ffffff">
+                  {s.svg}
+                </svg>
+              </a>
+            ))}
+          </div>
+          <p className="text-dim text-[11px]">© 7lwany Store</p>
         </div>
-        <p className="text-dim text-[11px]">© 7lwany Store</p>
       </div>
     </footer>
   );
