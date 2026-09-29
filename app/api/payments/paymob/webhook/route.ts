@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       .eq("order_id", order.id)
       .single();
 
-    const productInfo = itemRow?.products as { category_face_value: number } | null;
+    const productInfo = itemRow?.products as unknown as { category_face_value: number } | null;
     const category = String(productInfo?.category_face_value ?? "");
     const productName = itemRow?.product_name_snapshot ?? `بطاقة ${category} ج.م`;
 
