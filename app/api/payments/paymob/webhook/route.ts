@@ -1,107 +1,120 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { paymobProvider } from "@/lib/payments/paymob";
+import { sendCodeEmail } from "@/lib/email/resend";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   const supabase = createServerSupabase();
 
   try {
     const payload = await req.json();
-    const headers = Object.fromEntries(req.headers.entries());
-
-    const verification = await paymobProvider.verifyWebhook(payload, headers);
+    const verification = await paymobProvider.verifyWebhook(payload, req.headers);
 
     if (!verification.valid) {
-      console.warn("Paymob webhook: invalid HMAC — rejected");
-      return NextResponse.json({ error: "invalid signature" }, { status: 401 });
+      console.error("Webhook HMAC verification failed");
+      return NextResponse.json({ error: "invalid signature" }, { status: 400 });
     }
 
-    if (!verification.orderNumber) {
-      console.warn("Paymob webhook: no order_number in payload extras");
-      return NextResponse.json({ error: "order not identified" }, { status: 400 });
-    }
+    const { orderNumber, providerReference, amountEGP, status } = verification;
 
-    // Idempotency: لو المعاملة دي اتسجلت قبل كدا، منعالجهاش تاني
     const { data: existingPayment } = await supabase
       .from("payments")
       .select("id")
       .eq("provider", "paymob")
-      .eq("provider_reference", verification.providerReference)
+      .eq("provider_reference", providerReference)
       .maybeSingle();
 
     if (existingPayment) {
       return NextResponse.json({ ok: true, note: "already processed" });
     }
 
-    const { data: order } = await supabase
+    const { data: order, error: orderFetchError } = await supabase
       .from("orders")
-      .select("id, order_number, total, payment_status, order_status")
-      .eq("order_number", verification.orderNumber)
+      .select("*")
+      .eq("order_number", orderNumber)
       .single();
 
-    if (!order) {
+    if (orderFetchError || !order) {
+      console.error("Webhook: order not found", orderNumber);
       return NextResponse.json({ error: "order not found" }, { status: 404 });
     }
 
-    // تحقق من تطابق المبلغ — مش بس نصدق حالة النجاح المرسلة
-    const amountMatches = verification.amountEGP !== null && Math.abs(verification.amountEGP - Number(order.total)) < 0.01;
+    if (Math.round(order.total_price * 100) !== Math.round(amountEGP * 100)) {
+      console.error("Webhook: amount mismatch", order.total_price, amountEGP);
+      return NextResponse.json({ error: "amount mismatch" }, { status: 400 });
+    }
 
     await supabase.from("payments").insert({
       order_id: order.id,
       provider: "paymob",
-      provider_reference: verification.providerReference,
-      amount: verification.amountEGP ?? 0,
-      currency: verification.currency ?? "EGP",
-      status: verification.status ?? "failed",
-      raw_response: verification.raw as any,
+      provider_reference: providerReference,
+      amount: amountEGP,
+      status,
     });
 
-    if (verification.status !== "paid" || !amountMatches) {
+    if (status !== "success") {
       await supabase
         .from("orders")
-        .update({ payment_status: "failed" })
+        .update({ payment_status: "failed", order_status: "failed" })
         .eq("id", order.id);
-      return NextResponse.json({ ok: true, note: "payment not successful or amount mismatch" });
+      return NextResponse.json({ ok: true });
     }
 
-    if (order.payment_status === "paid") {
-      // اتعالج قبل كدا فعلاً (احتياط إضافي فوق الـ idempotency الأساسية)
-      return NextResponse.json({ ok: true, note: "already paid" });
-    }
-
-    // ==== الدفع اتأكد فعليًا هنا بس — دلوقتي نسحب كود آيتونز حقيقي ====
-    const { data: item } = await supabase
+    const { data: itemRow } = await supabase
       .from("order_items")
-      .select("product_id, products(category_face_value)")
+      .select("category_face_value, product_name")
       .eq("order_id", order.id)
       .single();
 
-    const category = String((item as any)?.products?.category_face_value ?? "");
+    const category = String(itemRow?.category_face_value ?? "");
 
-    const { data: code, error: claimError } = await supabase.rpc("claim_itunes_code", {
-      p_category: category,
-      p_order_number: order.order_number,
-    });
+    const { data: claimedCode, error: claimError } = await supabase.rpc(
+      "claim_itunes_code",
+      { p_category: category, p_order_number: order.order_number }
+    );
 
-    if (claimError || !code) {
-      // المخزون خلص للفئة دي — الطلب يتحدد "paid" لكن يفضل بدون كود،
-      // ولازم تتنبه فورًا (TODO: إشعار أدمن هنا في مرحلة الإيميلات)
+    if (claimError) {
+      console.error("claim_itunes_code error:", JSON.stringify(claimError));
+    }
+
+    if (!claimedCode) {
+      console.error(
+        `Payment succeeded for order ${order.order_number} but no stock available (category ${category})`
+      );
       await supabase
         .from("orders")
-        .update({ payment_status: "paid", order_status: "paid" })
+        .update({ payment_status: "paid", order_status: "paid_no_stock" })
         .eq("id", order.id);
-      console.error(`Stock empty for category ${category} — order ${order.order_number} paid without code`);
-      return NextResponse.json({ ok: true, note: "paid but out of stock" });
+      return NextResponse.json({ ok: true, warning: "paid_no_stock" });
     }
 
     await supabase
       .from("orders")
-      .update({ payment_status: "paid", order_status: "completed", itunes_code: code })
+      .update({
+        payment_status: "paid",
+        order_status: "paid",
+        itunes_code: claimedCode,
+      })
       .eq("id", order.id);
+
+    if (order.customer_email) {
+      const { sent } = await sendCodeEmail({
+        to: order.customer_email,
+        customerName: order.customer_name,
+        orderNumber: order.order_number,
+        productName: itemRow?.product_name ?? `بطاقة ${category} ج.م`,
+        code: claimedCode,
+      });
+      if (!sent) {
+        console.error(`Failed to email code for order ${order.order_number}`);
+      }
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Paymob webhook error:", err);
+    console.error("Webhook error:", err);
     return NextResponse.json({ error: "internal error" }, { status: 500 });
   }
 }
