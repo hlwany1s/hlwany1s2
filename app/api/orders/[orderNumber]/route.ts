@@ -11,7 +11,7 @@ export async function GET(req: NextRequest, { params }: { params: { orderNumber:
   const supabase = createServerSupabase();
   const { data: order } = await supabase
     .from("orders")
-    .select("order_number, payment_status, order_status, total, itunes_code, access_token")
+    .select("id, order_number, payment_status, order_status, total, access_token")
     .eq("order_number", params.orderNumber)
     .single();
 
@@ -19,12 +19,24 @@ export async function GET(req: NextRequest, { params }: { params: { orderNumber:
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
+  const { data: items } = await supabase
+    .from("order_items")
+    .select("product_name_snapshot, quantity, codes")
+    .eq("order_id", order.id);
+
   return NextResponse.json({
     orderNumber: order.order_number,
     paymentStatus: order.payment_status,
     orderStatus: order.order_status,
     total: order.total,
-    // الكود ميترجعش إلا لو الدفع اتأكد فعليًا سيرفر-سايد
-    itunesCode: order.payment_status === "paid" ? order.itunes_code : null,
+    // الأكواد ميترجعوش إلا لو الدفع اتأكد فعليًا سيرفر-سايد
+    items:
+      order.payment_status === "paid"
+        ? (items ?? []).map((i) => ({
+            productName: i.product_name_snapshot,
+            quantity: i.quantity,
+            codes: i.codes ?? [],
+          }))
+        : [],
   });
 }
