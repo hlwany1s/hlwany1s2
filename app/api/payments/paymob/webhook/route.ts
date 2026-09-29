@@ -10,17 +10,20 @@ export async function POST(req: NextRequest) {
 
   try {
     const payload = await req.json();
-  const verification = await paymobProvider.verifyWebhook(payload, Object.fromEntries(req.headers.entries()));
+    const verification = await paymobProvider.verifyWebhook(
+      payload,
+      Object.fromEntries(req.headers.entries())
+    );
 
     if (!verification.valid) {
       console.error("Webhook HMAC verification failed");
       return NextResponse.json({ error: "invalid signature" }, { status: 400 });
     }
 
-    const { orderNumber, providerReference, amountEGP, status } = verification;
-        const { orderNumber, providerReference, amountEGP, status } = verification;
+    const { orderNumber, providerReference, status } = verification;
+    const amountEGP = verification.amountEGP ?? 0;
 
-    if (amountEGP == null) {
+    if (!verification.amountEGP) {
       console.error("Webhook: amountEGP missing from verification result");
       return NextResponse.json({ error: "invalid amount" }, { status: 400 });
     }
