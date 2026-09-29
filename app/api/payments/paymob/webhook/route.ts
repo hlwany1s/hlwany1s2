@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
       status,
     });
 
-    if (status !== "success") {
+        if ((status as string) !== "success") {
       await supabase
         .from("orders")
         .update({ payment_status: "failed", order_status: "failed" })
