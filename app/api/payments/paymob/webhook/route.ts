@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerSupabase } from "@/lib/supabase/server";
 import { paymobProvider } from "@/lib/payments/paymob";
 import { sendCodeEmail } from "@/lib/email/resend";
-
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
