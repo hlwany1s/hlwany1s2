@@ -7,7 +7,6 @@ import { paymobProvider } from "@/lib/payments/paymob";
 export const dynamic = "force-dynamic";
 
 const checkoutSchema = z.object({
-  productId: z.string().uuid(),
   customerName: z.string().min(2, "اكتب اسمك بالكامل"),
   customerPhone: z
     .string()
@@ -17,6 +16,14 @@ const checkoutSchema = z.object({
     .string()
     .min(1, "الإيميل مطلوب")
     .email("اكتب إيميل صحيح"),
+  items: z
+    .array(
+      z.object({
+        productId: z.string().uuid(),
+        quantity: z.number().int().min(1).max(50),
+      })
+    )
+    .min(1, "السلة فاضية"),
 });
 
 export async function POST(req: NextRequest) {
@@ -31,43 +38,70 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { productId, customerName, customerPhone, customerEmail } = parsed.data;
+    const { customerName, customerPhone, customerEmail, items } = parsed.data;
 
     const supabase = createServerSupabase();
 
-    const product = await getAuthoritativeProduct(productId);
-    if (!product) {
-      return NextResponse.json(
-        { error: "المنتج غير متاح حاليًا" },
-        { status: 400 }
-      );
+    // 1) نجيب السعر والحالة الحقيقية لكل منتج من الداتا بيز (مش من الكلاينت)،
+    // ونتحقق إن كل فئة فيها ستوك كافي للكمية المطلوبة قبل ما نسمح بالدفع أصلاً
+    const resolvedItems: {
+      productId: string;
+      name: string;
+      price: number;
+      category: string;
+      quantity: number;
+    }[] = [];
+
+    // لو نفس المنتج اتكرر في السلة بأكتر من سطر، نجمع الكميات
+    const neededByCategory = new Map<string, number>();
+
+    for (const line of items) {
+      const product = await getAuthoritativeProduct(line.productId);
+      if (!product) {
+        return NextResponse.json(
+          { error: "أحد المنتجات في السلة غير متاح، حدّث الصفحة وحاول تاني" },
+          { status: 400 }
+        );
+      }
+
+      const category = String(product.category_face_value);
+      resolvedItems.push({
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        category,
+        quantity: line.quantity,
+      });
+
+      neededByCategory.set(category, (neededByCategory.get(category) ?? 0) + line.quantity);
     }
 
-    const category = String(product.category_face_value);
-    const { count: availableCount, error: stockError } = await supabase
-      .from("itunes_stock")
-      .select("*", { count: "exact", head: true })
-      .eq("category", category)
-      .eq("available", true);
+    for (const [category, needed] of neededByCategory.entries()) {
+      const { count: availableCount, error: stockError } = await supabase
+        .from("itunes_stock")
+        .select("*", { count: "exact", head: true })
+        .eq("category", category)
+        .eq("available", true);
 
-    if (stockError) {
-      console.error("Stock check error:", JSON.stringify(stockError));
-      return NextResponse.json(
-        { error: "حصل خطأ أثناء التحقق من المخزون، حاول تاني" },
-        { status: 500 }
-      );
+      if (stockError) {
+        console.error("Stock check error:", JSON.stringify(stockError));
+        return NextResponse.json(
+          { error: "حصل خطأ أثناء التحقق من المخزون، حاول تاني" },
+          { status: 500 }
+        );
+      }
+
+      if (!availableCount || availableCount < needed) {
+        return NextResponse.json(
+          {
+            error: `عذرًا، فئة ${category} ج.م مفيهاش ستوك كافي دلوقتي (متاح ${availableCount ?? 0} بس). قلل الكمية أو جرب فئة تانية.`,
+          },
+          { status: 400 }
+        );
+      }
     }
 
-    if (!availableCount || availableCount === 0) {
-      return NextResponse.json(
-        {
-          error:
-            "عذرًا، فئة البطاقة دي خلصت من المخزون دلوقتي. جرب فئة تانية أو تواصل معانا.",
-        },
-        { status: 400 }
-      );
-    }
-
+    const subtotal = resolvedItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     const orderNumber = generateOrderNumber();
 
     const { data: order, error: orderError } = await supabase
@@ -77,9 +111,9 @@ export async function POST(req: NextRequest) {
         customer_name: customerName,
         customer_phone: customerPhone,
         customer_email: customerEmail,
-        subtotal: product.price,
+        subtotal,
         discount: 0,
-        total: product.price,
+        total: subtotal,
         payment_status: "pending",
         order_status: "pending",
       })
@@ -94,17 +128,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { error: itemError } = await supabase.from("order_items").insert({
+    const itemsToInsert = resolvedItems.map((i) => ({
       order_id: order.id,
-      product_id: product.id,
-      product_name_snapshot: product.name,
-      unit_price: product.price,
-      quantity: 1,
-      total: product.price,
-    });
+      product_id: i.productId,
+      product_name_snapshot: i.name,
+      unit_price: i.price,
+      quantity: i.quantity,
+      total: i.price * i.quantity,
+    }));
 
-    if (itemError) {
-      console.error("Order item creation error:", JSON.stringify(itemError));
+    const { error: itemsError } = await supabase.from("order_items").insert(itemsToInsert);
+
+    if (itemsError) {
+      console.error("Order items creation error:", JSON.stringify(itemsError));
       return NextResponse.json(
         { error: "حصل خطأ أثناء إنشاء الطلب، حاول تاني" },
         { status: 500 }
@@ -114,7 +150,7 @@ export async function POST(req: NextRequest) {
     const redirectUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/order/${orderNumber}?t=${order.access_token}`;
 
     const payment = await paymobProvider.createPayment({
-      amountEGP: product.price,
+      amountEGP: subtotal,
       orderId: order.id,
       orderNumber: order.order_number,
       customerName,
