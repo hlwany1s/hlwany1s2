@@ -44,7 +44,7 @@ export function SiteFooter() {
           <img
             src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
             alt="7lwany Store"
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0"
+            className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl object-cover flex-shrink-0"
           />
           <div className="flex items-center gap-3">
             {SOCIAL_LINKS.map((s) => (
