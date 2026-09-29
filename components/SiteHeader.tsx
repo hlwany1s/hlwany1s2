@@ -19,6 +19,15 @@ export function SiteHeader() {
           padding: "14px 20px",
         }}
       >
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span className="font-extrabold">7lwany Store</span>
+          <img
+            src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
+            alt="7lwany Store"
+            className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
+          />
+        </Link>
+
         <Link
           href="/cart"
           aria-label="السلة"
@@ -59,26 +68,6 @@ export function SiteHeader() {
             </span>
           )}
         </Link>
-
-        <Link
-          href="/"
-          style={{
-            flex: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
-          }}
-        >
-          <span className="font-extrabold">7lwany Store</span>
-          <img
-            src="https://raw.githubusercontent.com/hlwany1s/Orders/refs/heads/main/hlwany_logo_final.png"
-            alt="7lwany Store"
-            className="w-14 h-14 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
-          />
-        </Link>
-
-        <div style={{ width: "40px", flexShrink: 0 }} aria-hidden="true" />
       </div>
     </header>
   );
