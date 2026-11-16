@@ -84,6 +84,8 @@ a{color:inherit;text-decoration:none}
   radial-gradient(circle at 15% 90%,rgba(255,255,255,.18),transparent 40%)}
 .gift.us{background:linear-gradient(135deg,#ff5a7a 0%,#c13cf0 50%,#3a7bff 100%)}
 .gift > *{position:relative}
+.gift .fruit{position:absolute;top:50%;left:50%;width:46%;transform:translate(-50%,-50%);pointer-events:none;
+  filter:drop-shadow(0 1px 0 rgba(255,255,255,.35)) drop-shadow(0 -1px 1px rgba(0,0,0,.25))}
 .gift-top{display:flex;justify-content:space-between;align-items:center}
 .gift-top .flag{width:28px;height:19px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 .gift-brand{font-size:11px;font-weight:700;opacity:.9;letter-spacing:.3px;direction:ltr}
@@ -270,6 +272,13 @@ document.getElementById('flagEG').innerHTML = FLAG_EG.replace('width="22" height
 document.getElementById('flagUS').innerHTML = FLAG_US.replace('width="22" height="15"','width="30" height="20"');
 
 const fmt = n => n.toLocaleString('en');
+const FRUIT = `<svg class="fruit" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M50 30c-6-5-16-7-24-2-11 7-12 24-6 38 5 12 14 22 22 22 3 0 5-2 8-2s5 2 8 2c8 0 17-10 22-22 6-14 5-31-6-38-8-5-18-3-24 2z" fill="rgba(255,255,255,.14)" stroke="rgba(255,255,255,.55)" stroke-width="2.2"/>
+  <path d="M30 44c-3 7-2 16 2 23" stroke="rgba(255,255,255,.45)" stroke-width="2.4"/>
+  <path d="M50 30c0-6 1-12 4-17" stroke="rgba(255,255,255,.6)" stroke-width="2.6"/>
+  <path d="M53 17c4-6 12-8 18-6-2 7-9 11-16 10" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.55)" stroke-width="1.8"/>
+  <path d="M51 20c-5-5-12-6-17-3 3 6 10 8 16 6" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.5)" stroke-width="1.8"/>
+</svg>`;
 const waIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
 
 function card(type, value, price){
@@ -285,6 +294,7 @@ function card(type, value, price){
   return `
   <article class="card">
     <div class="gift ${isEG ? '' : 'us'}">
+      ${FRUIT}
       <div class="gift-top"><span class="gift-brand">App Store &amp; iTunes</span><span class="flag">${isEG ? FLAG_EG : FLAG_US}</span></div>
       <div class="gift-val">${isEG ? fmt(value) + '<sub>EGP</sub>' : '$' + value}</div>
     </div>
