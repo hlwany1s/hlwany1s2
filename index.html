@@ -58,7 +58,7 @@ a{color:inherit;text-decoration:none}
 
 /* ===== Tabs ===== */
 .switch{display:flex;justify-content:center;margin:34px 0 10px}
-.switch-in{display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:var(--navy2);border:1px solid var(--line)}
+.switch-in{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:6px;border-radius:999px;background:var(--navy2);border:1px solid var(--line)}
 .switch button{font-family:inherit;font-weight:800;font-size:15px;border:0;cursor:pointer;color:var(--muted);
   background:transparent;padding:12px 22px;border-radius:999px;display:flex;align-items:center;gap:8px;transition:.25s}
 .switch button.on{background:linear-gradient(135deg,var(--emerald),var(--deep));color:var(--white);box-shadow:0 6px 24px rgba(16,185,129,.35)}
@@ -138,6 +138,8 @@ footer .links a:hover{color:var(--emerald)}
 .tg{background:#229ED9;color:#fff}
 
 @media(max-width:640px){
+  .switch button{padding:10px 14px;font-size:14px}
+  .switch-in{border-radius:22px}
   .nav{display:none}
   .how{grid-template-columns:1fr}
   .grid{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -159,6 +161,7 @@ footer .links a:hover{color:var(--emerald)}
     <nav class="nav">
       <a href="#eg">ايتونز مصري</a>
       <a href="#us">ايتونز أمريكي</a>
+      <a href="#other">دول تانية</a>
       <a href="#how">طريقة الشراء</a>
     </nav>
   </div>
@@ -196,6 +199,7 @@ footer .links a:hover{color:var(--emerald)}
     <div class="switch-in">
       <button class="on" data-go="eg"><span class="flag" aria-hidden="true"><svg viewBox="0 0 3 2" width="22" height="15"><rect width="3" height="2" fill="#000"/><rect width="3" height="1.333" fill="#fff"/><rect width="3" height=".667" fill="#CE1126"/><circle cx="1.5" cy="1" r=".18" fill="#C09300"/></svg></span>ايتونز مصري</button>
       <button data-go="us"><span class="flag" aria-hidden="true"><svg viewBox="0 0 19 10" width="22" height="15"><rect width="19" height="10" fill="#B22234"/><g fill="#fff"><rect y=".77" width="19" height=".77"/><rect y="2.31" width="19" height=".77"/><rect y="3.85" width="19" height=".77"/><rect y="5.38" width="19" height=".77"/><rect y="6.92" width="19" height=".77"/><rect y="8.46" width="19" height=".77"/></g><rect width="7.6" height="5.38" fill="#3C3B6E"/></svg></span>ايتونز أمريكي</button>
+      <button data-go="other"><span aria-hidden="true">🌍</span>دول تانية</button>
     </div>
   </div>
 
@@ -213,6 +217,14 @@ footer .links a:hover{color:var(--emerald)}
       <small>للحسابات الأمريكية</small>
     </div>
     <div class="grid" id="gridUS"></div>
+  </section>
+
+  <section class="sec" id="other">
+    <div class="sec-head">
+      <h2>🌍 دول تانية</h2>
+      <small>تركي · إماراتي · سعودي</small>
+    </div>
+    <div class="grid" id="gridOther"></div>
   </section>
 
   <section id="how" class="sec">
@@ -259,6 +271,12 @@ const US = [ // [الفئة بالدولار, السعر بالجنيه — اك
   [2,150],[4,300],[5,350],[10,700],[15,1050],[20,1400],[25,1750],
   [30,2100],[40,2800],[50,3500],[60,4200],[70,4900],[100,7000],[150,10500]
 ];
+
+const OTHER = [ // [المفتاح, اسم الدولة, اسم المتجر]
+  ['tr','تركي','متجر تركيا'],
+  ['ae','إماراتي','متجر الإمارات'],
+  ['sa','سعودي','متجر السعودية'],
+];
 // =====================================================
 
 const FLAG_EG = document.querySelector('[data-go="eg"] .flag').innerHTML;
@@ -267,6 +285,12 @@ document.getElementById('flagEG').innerHTML = FLAG_EG.replace('width="22" height
 document.getElementById('flagUS').innerHTML = FLAG_US.replace('width="22" height="15"','width="30" height="20"');
 
 const fmt = n => n.toLocaleString('en');
+const FLAGS = {
+  tr: '<svg viewBox="0 0 30 20" width="22" height="15"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><polygon fill="#fff" points="16,10 19.6,8.8 17.4,11.9 17.4,8.1 19.6,11.2"/></svg>',
+  ae: '<svg viewBox="0 0 12 6" width="22" height="15"><rect width="12" height="6" fill="#00732F"/><rect y="2" width="12" height="2" fill="#fff"/><rect y="4" width="12" height="2" fill="#000"/><rect width="3" height="6" fill="#FF0000"/></svg>',
+  sa: '<svg viewBox="0 0 30 20" width="22" height="15"><rect width="30" height="20" fill="#006C35"/><rect x="8" y="12.5" width="14" height="1.3" rx=".6" fill="#fff"/><rect x="9" y="6" width="12" height="4.5" rx="1" fill="#fff" opacity=".85"/></svg>'
+};
+
 const waIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
 
 function card(type, value, price){
@@ -297,6 +321,24 @@ function card(type, value, price){
 
 document.getElementById('gridEG').innerHTML = EG.map(([v,p]) => card('eg', v, p)).join('');
 document.getElementById('gridUS').innerHTML = US.map(([v,p]) => card('us', v, p)).join('');
+document.getElementById('gridOther').innerHTML = OTHER.map(([k,name,store]) => {
+  const msg = `السلام عليكم كنت محتاج كود ايتونز ${name}`;
+  const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  return `
+  <article class="card">
+    <div class="gift">
+      <div class="gift-top"><span class="gift-brand"></span><span class="flag">${FLAGS[k]}</span></div>
+      <div class="gift-val" style="font-size:16px">كل الفئات</div>
+    </div>
+    <span class="badge"><i></i>متاح بالطلب</span>
+    <div class="name">كارت ايتونز ${name}</div>
+    <div class="sub">${store} — كلمنا نحدد الفئة</div>
+    <div class="row">
+      <div class="price ask">السعر على الواتساب</div>
+      <a class="buy" href="${link}" target="_blank" rel="noopener">${waIcon}اطلب</a>
+    </div>
+  </article>`;
+}).join('');
 document.getElementById('yr').textContent = new Date().getFullYear();
 
 // التبديل بين القائمتين
@@ -307,7 +349,7 @@ btns.forEach(b => b.addEventListener('click', () => {
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) btns.forEach(b => b.classList.toggle('on', b.dataset.go === e.target.id));
 }), {rootMargin:'-45% 0px -50% 0px'});
-['eg','us'].forEach(id => io.observe(document.getElementById(id)));
+['eg','us','other'].forEach(id => io.observe(document.getElementById(id)));
 </script>
 </body>
 </html>
