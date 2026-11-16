@@ -4,4 +4,4 @@
 زرار الشراء بيفتح واتساب برسالة جاهزة. مفيش أي ربط بقاعدة بيانات.
 
 - تعديل الفئات والأسعار: أول الـ `<script>` في `index.html` (قوائم `EG` و `US`).
-- النسخة القديمة (Next.js + Supabase + Paymob) محفوظة في التاج `old-nextjs-store`.
+- النسخة القديمة (Next.js + Supabase + Paymob) محفوظة في تاريخ الـ repo (commit `994cd6a`).
