@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7lwany Store | كروت ايتونز مصري وأمريكي</title>
+<meta name="description" content="7lwany Store — كروت App Store & iTunes مصري وأمريكي، أكواد أصلية وتسليم فوري على الواتساب.">
+<meta name="theme-color" content="#071525">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:title" content="7lwany Store | كروت ايتونز">
+<meta property="og:description" content="كروت App Store & iTunes مصري وأمريكي — أكواد أصلية وتسليم فوري.">
+<meta property="og:image" content="logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --emerald:#10B981; --deep:#047857; --navy:#071525; --navy2:#0F2538;
+  --mint:#A7F3D0; --white:#FFFFFF; --muted:#9FB3C8; --line:rgba(167,243,208,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Tajawal',sans-serif;font-weight:500;color:var(--white);
+  background:var(--navy);min-height:100vh;overflow-x:hidden;
+  background-image:
+    radial-gradient(900px 500px at 50% -10%, rgba(16,185,129,.18), transparent 70%),
+    radial-gradient(600px 400px at 100% 40%, rgba(4,120,87,.12), transparent 70%),
+    radial-gradient(600px 400px at 0% 80%, rgba(16,185,129,.08), transparent 70%);
+}
+a{color:inherit;text-decoration:none}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 16px}
+
+/* ===== Header ===== */
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);background:rgba(7,21,37,.72);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px}
+.brand img{width:40px;height:40px;border-radius:50%}
+.brand span b{color:var(--emerald)}
+.nav{display:flex;gap:6px}
+.nav a{padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;color:var(--muted);transition:.2s}
+.nav a:hover{color:var(--white);background:rgba(16,185,129,.12)}
+
+/* ===== Hero ===== */
+.hero{text-align:center;padding:48px 0 28px}
+.logo-ring{width:min(240px,62vw);aspect-ratio:1;margin:0 auto 22px;border-radius:50%;
+  filter:drop-shadow(0 0 40px rgba(16,185,129,.45));animation:float 6s ease-in-out infinite}
+.logo-ring img{width:100%;height:100%;border-radius:50%}
+@keyframes float{50%{transform:translateY(-8px)}}
+.hero h1{font-weight:800;font-size:clamp(28px,6vw,46px);line-height:1.25}
+.hero h1 em{font-style:normal;color:var(--emerald);text-shadow:0 0 24px rgba(16,185,129,.5)}
+.hero p{color:var(--muted);font-size:clamp(15px,3.6vw,18px);max-width:560px;margin:14px auto 0;line-height:1.8}
+.trust{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px}
+.trust div{display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:14px;
+  background:rgba(15,37,56,.7);border:1px solid var(--line);font-weight:700;font-size:14px}
+.trust svg{width:18px;height:18px;color:var(--emerald);flex-shrink:0}
+
+/* ===== Tabs ===== */
+.switch{display:flex;justify-content:center;margin:34px 0 10px}
+.switch-in{display:inline-flex;gap:6px;padding:6px;border-radius:999px;background:var(--navy2);border:1px solid var(--line)}
+.switch button{font-family:inherit;font-weight:800;font-size:15px;border:0;cursor:pointer;color:var(--muted);
+  background:transparent;padding:12px 22px;border-radius:999px;display:flex;align-items:center;gap:8px;transition:.25s}
+.switch button.on{background:linear-gradient(135deg,var(--emerald),var(--deep));color:var(--white);box-shadow:0 6px 24px rgba(16,185,129,.35)}
+.flag{width:22px;height:15px;border-radius:3px;overflow:hidden;display:inline-block;flex-shrink:0}
+
+/* ===== Section ===== */
+.sec{padding:20px 0 40px;scroll-margin-top:80px}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:18px}
+.sec-head h2{font-weight:800;font-size:clamp(22px,5vw,30px);display:flex;align-items:center;gap:10px}
+.sec-head h2 .flag{width:30px;height:20px}
+.sec-head small{color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+
+/* ===== Product card ===== */
+.card{position:relative;border-radius:20px;padding:14px;background:linear-gradient(180deg,rgba(15,37,56,.9),rgba(7,21,37,.95));
+  border:1px solid var(--line);transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);border-color:rgba(16,185,129,.45);box-shadow:0 16px 40px rgba(16,185,129,.15)}
+.gift{position:relative;aspect-ratio:1.58;border-radius:14px;overflow:hidden;padding:12px 14px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:linear-gradient(135deg,#2b6ff7 0%,#5b4ef0 45%,#8e3fe3 100%)}
+.gift::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(circle at 80% 20%,rgba(255,255,255,.28),transparent 45%),
+  radial-gradient(circle at 15% 90%,rgba(255,255,255,.18),transparent 40%)}
+.gift.us{background:linear-gradient(135deg,#ff5a7a 0%,#c13cf0 50%,#3a7bff 100%)}
+.gift > *{position:relative}
+.gift-top{display:flex;justify-content:space-between;align-items:center}
+.gift-top .flag{width:28px;height:19px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.gift-brand{font-size:11px;font-weight:700;opacity:.9;letter-spacing:.3px;direction:ltr}
+.gift-val{font-weight:800;font-size:34px;line-height:1;direction:ltr;text-align:left;text-shadow:0 2px 12px rgba(0,0,0,.25)}
+.gift-val sub{font-size:14px;font-weight:700;vertical-align:baseline;margin-inline-start:4px}
+
+.stock{position:absolute;top:22px;inset-inline-start:22px;display:none}
+.badge{display:inline-flex;align-items:center;gap:6px;margin:14px 0 6px;align-self:flex-start;
+  padding:5px 11px;border-radius:999px;font-size:12px;font-weight:800;color:var(--mint);
+  background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.35)}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 0 0 rgba(16,185,129,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 7px rgba(16,185,129,0)}100%{box-shadow:0 0 0 0 rgba(16,185,129,0)}}
+.name{font-weight:800;font-size:16px;margin-top:2px}
+.sub{color:var(--muted);font-size:13px;margin-top:2px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:14px}
+.price{font-weight:800;font-size:22px;color:var(--white)}
+.price small{font-size:13px;color:var(--mint);font-weight:700;margin-inline-start:3px}
+.price.ask{font-size:14px;color:var(--mint)}
+.buy{display:inline-flex;align-items:center;gap:6px;padding:11px 16px;border-radius:12px;font-weight:800;font-size:14px;
+  background:linear-gradient(135deg,var(--emerald),var(--deep));color:var(--white);box-shadow:0 6px 18px rgba(16,185,129,.3);transition:.2s;white-space:nowrap}
+.buy:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.buy svg{width:16px;height:16px}
+
+/* ===== How ===== */
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0 50px}
+.step{padding:20px;border-radius:18px;background:rgba(15,37,56,.6);border:1px solid var(--line)}
+.step b{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(16,185,129,.15);color:var(--emerald);font-weight:800;margin-bottom:10px}
+.step h3{font-weight:800;font-size:16px}
+.step p{color:var(--muted);font-size:14px;margin-top:4px;line-height:1.7}
+
+footer{border-top:1px solid var(--line);padding:26px 0 110px;text-align:center;color:var(--muted);font-size:13px}
+footer .links{display:flex;justify-content:center;gap:18px;margin-bottom:10px;font-weight:700;color:var(--white)}
+footer .links a:hover{color:var(--emerald)}
+
+/* ===== Floating support (bottom-left) ===== */
+.support{position:fixed;left:16px;bottom:16px;z-index:30;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.support a{display:flex;align-items:center;gap:8px;height:52px;padding:0 16px 0 6px;border-radius:999px;font-weight:800;font-size:14px;
+  box-shadow:0 10px 26px rgba(0,0,0,.35);transition:.2s;direction:ltr}
+.support a:hover{transform:translateY(-2px)}
+.support .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18)}
+.support svg{width:22px;height:22px}
+.wa{background:#25D366;color:#fff}
+.tg{background:#229ED9;color:#fff}
+
+@media(max-width:640px){
+  .nav{display:none}
+  .how{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .card{padding:10px;border-radius:16px}
+  .gift-val{font-size:26px}
+  .row{flex-direction:column;align-items:stretch;gap:8px}
+  .buy{justify-content:center}
+  .price{font-size:19px}
+  .support a{height:48px;padding:0 6px}
+  .support a span{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="logo.webp" alt="7lwany Store"><span><b>7lwany</b> Store</span></a>
+    <nav class="nav">
+      <a href="#eg">ايتونز مصري</a>
+      <a href="#us">ايتونز أمريكي</a>
+      <a href="#how">طريقة الشراء</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="logo-ring"><img src="logo.webp" alt="7lwany Store" width="240" height="240"></div>
+    <h1>كروت <em>App Store &amp; iTunes</em><br>مصري وأمريكي</h1>
+    <p>متجرك الموثوق لشحن كل تطبيقات وألعاب الـ App Store. أكواد أصلية من مصادر رسمية، بتوصلك فوراً على الواتساب، ودعم متاح لأي استفسار.</p>
+    <div class="trust">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>أكواد أصلية 100%</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>تسليم فوري</div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>دعم على الواتساب</div>
+    </div>
+  </section>
+
+  <div class="switch">
+    <div class="switch-in">
+      <button class="on" data-go="eg"><span class="flag" aria-hidden="true"><svg viewBox="0 0 3 2" width="22" height="15"><rect width="3" height="2" fill="#000"/><rect width="3" height="1.333" fill="#fff"/><rect width="3" height=".667" fill="#CE1126"/><circle cx="1.5" cy="1" r=".18" fill="#C09300"/></svg></span>ايتونز مصري</button>
+      <button data-go="us"><span class="flag" aria-hidden="true"><svg viewBox="0 0 19 10" width="22" height="15"><rect width="19" height="10" fill="#B22234"/><g fill="#fff"><rect y=".77" width="19" height=".77"/><rect y="2.31" width="19" height=".77"/><rect y="3.85" width="19" height=".77"/><rect y="5.38" width="19" height=".77"/><rect y="6.92" width="19" height=".77"/><rect y="8.46" width="19" height=".77"/></g><rect width="7.6" height="5.38" fill="#3C3B6E"/></svg></span>ايتونز أمريكي</button>
+    </div>
+  </div>
+
+  <section class="sec" id="eg">
+    <div class="sec-head">
+      <h2><span class="flag" id="flagEG"></span>ايتونز مصري</h2>
+      <small>للحسابات المصرية</small>
+    </div>
+    <div class="grid" id="gridEG"></div>
+  </section>
+
+  <section class="sec" id="us">
+    <div class="sec-head">
+      <h2><span class="flag" id="flagUS"></span>ايتونز أمريكي</h2>
+      <small>للحسابات الأمريكية</small>
+    </div>
+    <div class="grid" id="gridUS"></div>
+  </section>
+
+  <section id="how" class="sec">
+    <div class="sec-head"><h2>طريقة الشراء</h2></div>
+    <div class="how">
+      <div class="step"><b>1</b><h3>اختار الفئة</h3><p>اختار نوع الكارت (مصري أو أمريكي) والفئة اللي محتاجها.</p></div>
+      <div class="step"><b>2</b><h3>اضغط شراء</h3><p>هيفتحلك الواتساب برسالة جاهزة فيها طلبك، ابعتها بس.</p></div>
+      <div class="step"><b>3</b><h3>استلم الكود</h3><p>بعد الدفع هيوصلك الكود فوراً مع لينك الاسترداد المباشر.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://wa.me/201080236574" target="_blank" rel="noopener">واتساب</a>
+      <a href="https://t.me/hlwany1s" target="_blank" rel="noopener">تيليجرام</a>
+    </div>
+    © <span id="yr"></span> 7lwany Store — جميع الحقوق محفوظة
+  </div>
+</footer>
+
+<div class="support" aria-label="الدعم">
+  <a class="wa" href="https://wa.me/201080236574" target="_blank" rel="noopener" aria-label="واتساب">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3 2.4 1 2.9.8 3.4.7.5-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg></span>
+    <span>01080236574</span>
+  </a>
+  <a class="tg" href="https://t.me/hlwany1s" target="_blank" rel="noopener" aria-label="تيليجرام">
+    <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.6 13.2 1.9 11.7c-1-.3-1-1 .2-1.5L20.5 3c.9-.3 1.6.2 1.4 1.3z"/></svg></span>
+    <span>@hlwany1s</span>
+  </a>
+</div>
+
+<script>
+// ============ عدّل الفئات والأسعار من هنا ============
+const WHATSAPP = '201080236574';
+
+const EG = [ // [الفئة بالجنيه, السعر]
+  [150,225],[250,325],[300,390],[400,520],[500,650],[600,780],
+  [750,975],[1000,1300],[1500,1950],[2000,2600],[2500,3250],[3000,3900]
+];
+
+const US = [ // [الفئة بالدولار, السعر بالجنيه — اكتب null لو السعر على الواتس]
+  [2,null],[3,null],[5,null],[10,null],[15,null],[20,null],[25,null],[50,null],[100,null]
+];
+// =====================================================
+
+const FLAG_EG = document.querySelector('[data-go="eg"] .flag').innerHTML;
+const FLAG_US = document.querySelector('[data-go="us"] .flag').innerHTML;
+document.getElementById('flagEG').innerHTML = FLAG_EG.replace('width="22" height="15"','width="30" height="20"');
+document.getElementById('flagUS').innerHTML = FLAG_US.replace('width="22" height="15"','width="30" height="20"');
+
+const fmt = n => n.toLocaleString('en');
+const waIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
+
+function card(type, value, price){
+  const isEG = type === 'eg';
+  const label = isEG ? `${value} ج.م` : `${value}$`;
+  const msg = isEG
+    ? `السلام عليكم كنت محتاج كود فئة ${value} ايتونز مصري`
+    : `السلام عليكم كنت محتاج كود فئة ${value}$ ايتونز أمريكي`;
+  const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  const priceHtml = price
+    ? `<div class="price">${fmt(price)}<small>ج.م</small></div>`
+    : `<div class="price ask">السعر على الواتساب</div>`;
+  return `
+  <article class="card">
+    <div class="gift ${isEG ? '' : 'us'}">
+      <div class="gift-top"><span class="gift-brand">App Store &amp; iTunes</span><span class="flag">${isEG ? FLAG_EG : FLAG_US}</span></div>
+      <div class="gift-val">${isEG ? fmt(value) + '<sub>EGP</sub>' : '$' + value}</div>
+    </div>
+    <span class="badge"><i></i>متوفر</span>
+    <div class="name">كارت ايتونز ${label}</div>
+    <div class="sub">${isEG ? 'متجر مصر' : 'متجر أمريكا'}</div>
+    <div class="row">
+      ${priceHtml}
+      <a class="buy" href="${link}" target="_blank" rel="noopener">${waIcon}شراء</a>
+    </div>
+  </article>`;
+}
+
+document.getElementById('gridEG').innerHTML = EG.map(([v,p]) => card('eg', v, p)).join('');
+document.getElementById('gridUS').innerHTML = US.map(([v,p]) => card('us', v, p)).join('');
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// التبديل بين القائمتين
+const btns = document.querySelectorAll('.switch button');
+btns.forEach(b => b.addEventListener('click', () => {
+  document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'});
+}));
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) btns.forEach(b => b.classList.toggle('on', b.dataset.go === e.target.id));
+}), {rootMargin:'-45% 0px -50% 0px'});
+['eg','us'].forEach(id => io.observe(document.getElementById(id)));
+</script>
+</body>
+</html>
