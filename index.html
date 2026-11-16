@@ -107,6 +107,18 @@ a{color:inherit;text-decoration:none}
 .buy:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .buy svg{width:16px;height:16px}
 
+/* ===== Info ===== */
+.info{display:grid;grid-template-columns:1.2fr 1fr;gap:14px;margin-top:8px}
+.info > div{padding:20px;border-radius:18px;background:rgba(15,37,56,.6);border:1px solid var(--line)}
+.info h3{font-weight:800;font-size:17px;margin-bottom:10px}
+.info ul{list-style:none;display:grid;gap:8px}
+.info li{display:flex;gap:8px;align-items:flex-start;color:#d6e2ee;font-size:15px;line-height:1.6}
+.info li svg{width:18px;height:18px;color:var(--emerald);flex-shrink:0;margin-top:3px}
+.info .note{border-color:rgba(16,185,129,.4);background:linear-gradient(180deg,rgba(16,185,129,.10),rgba(15,37,56,.6))}
+.info .note p{color:#d6e2ee;font-size:15px;line-height:1.8}
+.info .note b{color:var(--mint)}
+@media(max-width:640px){.info{grid-template-columns:1fr}}
+
 /* ===== How ===== */
 .how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0 50px}
 .step{padding:20px;border-radius:18px;background:rgba(15,37,56,.6);border:1px solid var(--line)}
@@ -164,6 +176,22 @@ footer .links a:hover{color:var(--emerald)}
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>أكواد أصلية 100%</div>
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>تسليم فوري</div>
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>دعم على الواتساب</div>
+    </div>
+  </section>
+
+  <section class="info" aria-label="عن الكروت">
+    <div>
+      <h3>كروت iTunes / App Store</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>بطاقات شحن رسمية لإضافة رصيد إلى حساب Apple ID.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>شراء التطبيقات والألعاب.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>الاشتراك في خدمات Apple زي iCloud وغيرها.</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>أي مشتريات من App Store حسب بلد حسابك.</li>
+      </ul>
+    </div>
+    <div class="note">
+      <h3>📌 قبل الطلب</h3>
+      <p>اتأكد من <b>بلد حساب Apple ID</b> بتاعك (🇪🇬 مصر أو 🇺🇸 أمريكا)، لأن كل كارت بيشتغل على <b>نفس دولة الحساب فقط</b>.</p>
     </div>
   </section>
 
@@ -231,7 +259,8 @@ const EG = [ // [الفئة بالجنيه, السعر]
 ];
 
 const US = [ // [الفئة بالدولار, السعر بالجنيه — اكتب null لو السعر على الواتس]
-  [2,null],[3,null],[5,null],[10,null],[15,null],[20,null],[25,null],[50,null],[100,null]
+  [2,150],[4,300],[5,350],[10,700],[15,1050],[20,1400],[25,1750],
+  [30,2100],[40,2800],[50,3500],[60,4200],[70,4900],[100,7000],[150,10500]
 ];
 // =====================================================
 
