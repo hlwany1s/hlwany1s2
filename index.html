@@ -329,7 +329,7 @@ function priceCard(c, value, price){
     <div class="name">كارت ايتونز ${valAr(c,value)}</div>
     <div class="sub">متجر ${c.name}</div>
     <div class="row">${priceHtml}
-      <a class="buy" href="${waLink(msg)}" target="_blank" rel="noopener">${waIcon}شراء</a>
+      <a class="buy" data-track="buy-${c.key}-${value}" href="${waLink(msg)}" target="_blank" rel="noopener">${waIcon}شراء</a>
     </div>
   </article>`;
 }
@@ -345,7 +345,7 @@ function requestCard(c){
     <div class="name">كارت ايتونز ${c.adj}</div>
     <div class="sub">متجر ${c.name} — كلمنا نحدد الفئة</div>
     <div class="row"><div class="price ask">السعر على الواتساب</div>
-      <a class="buy" href="${waLink('السلام عليكم كنت محتاج كود ايتونز ' + c.adj)}" target="_blank" rel="noopener">${waIcon}اطلب</a>
+      <a class="buy" data-track="order-${c.key}" href="${waLink('السلام عليكم كنت محتاج كود ايتونز ' + c.adj)}" target="_blank" rel="noopener">${waIcon}اطلب</a>
     </div>
   </article>`;
 }
@@ -368,6 +368,20 @@ function route(){
 window.addEventListener('hashchange', route);
 route();
 document.getElementById('yr').textContent = new Date().getFullYear();
+
+// ---- تتبع الضغطات (بيظهر في Vercel Analytics تحت Pages بمسار /click/...) ----
+function track(path){ try { window.va && window.va('pageview', { path }); } catch(e){} }
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href*="wa.me"], a[href*="t.me"]');
+  if (a){
+    const app = a.href.includes('t.me') ? 'telegram' : 'whatsapp';
+    const where = a.closest('.support') ? 'float' : a.closest('footer') ? 'footer' : (a.dataset.track || 'buy');
+    track(`/click/${app}/${where}`);
+    return;
+  }
+  const c = e.target.closest('.country');
+  if (c) track(`/country/${c.dataset.key}`);
+});
 </script>
 </body>
 </html>
