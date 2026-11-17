@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>7lwany Store | كروت ايتونز مصري وأمريكي</title>
+<title>7lwany Store | كروت ايتونز وعملات تيك توك</title>
 <meta name="description" content="7lwany Store — كروت App Store & iTunes مصري وأمريكي، أكواد أصلية وتسليم فوري على الواتساب.">
 <meta name="theme-color" content="#071525">
 <link rel="icon" href="icon.png">
@@ -96,6 +96,31 @@ a{color:inherit;text-decoration:none}
 .sec-head h2 .flag{width:30px;height:20px;border-radius:3px;overflow:hidden;display:inline-block}
 .country .region small{display:block;text-align:left;font-size:11px;font-weight:700;color:#5b6b7c;letter-spacing:1px;margin-top:1px}
 .country .region{font-size:20px !important;line-height:1}
+/* ===== Products ===== */
+.products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:760px}
+.product{font-family:inherit;color:inherit;text-align:right;cursor:pointer;padding:12px;border-radius:20px;
+  background:linear-gradient(180deg,rgba(15,37,56,.9),rgba(7,21,37,.95));border:1px solid var(--line);
+  transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;gap:10px}
+.product:hover{transform:translateY(-4px);border-color:rgba(16,185,129,.5);box-shadow:0 16px 40px rgba(16,185,129,.18)}
+.pface{position:relative;aspect-ratio:1.58;border-radius:14px;overflow:hidden;display:grid;place-items:center;box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.pface.itunes{background:#fff url(card.webp) center/cover no-repeat}
+.pface.tiktok,.gift.tt{background:
+  radial-gradient(120% 90% at 0% 0%,rgba(37,244,238,.45),transparent 55%),
+  radial-gradient(120% 90% at 100% 100%,rgba(254,44,85,.55),transparent 55%),#0b0b10}
+.pface .coins{width:62%;filter:drop-shadow(0 8px 16px rgba(0,0,0,.45))}
+.ptag{position:absolute;left:12px;bottom:10px;direction:ltr;font-weight:800;font-size:14px;color:#0F2538}
+.ptag.light{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.gift.tt{color:#fff}
+.gift.tt .coins{position:absolute;right:8px;top:8px;width:46%}
+.gift.tt .gift-val{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.gift.tt .gift-val sub{color:#FFE58A}
+@media(max-width:640px){.products{gap:10px}.product{padding:8px;border-radius:16px}.ptag{font-size:11px;left:8px;bottom:6px}}
+
+.product .meta{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px 2px}
+.product b{display:block;font-weight:800;font-size:17px;white-space:nowrap}
+.product span.cnt{display:block;color:var(--mint);font-size:13px;margin-top:2px;font-weight:700}
+.product i{color:var(--emerald);font-style:normal;font-size:22px;line-height:1}
+@media(max-width:640px){.product b{font-size:14px}.product i{display:none}}
 /* ===== Product card ===== */
 .card{position:relative;border-radius:20px;padding:14px;background:linear-gradient(180deg,rgba(15,37,56,.9),rgba(7,21,37,.95));
   border:1px solid var(--line);transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
@@ -182,7 +207,8 @@ footer .links a:hover{color:var(--emerald)}
   <div class="wrap">
     <a class="brand" href="#"><img src="logo.webp" alt="7lwany Store"><span><b>7lwany</b> Store</span></a>
     <nav class="nav">
-      <a href="#countries">الدول</a>
+      <a href="#itunes">ايتونز</a>
+      <a href="#tiktok">عملات تيك توك</a>
       <a href="#how">طريقة الشراء</a>
     </nav>
   </div>
@@ -191,7 +217,7 @@ footer .links a:hover{color:var(--emerald)}
 <main class="wrap">
   <section class="hero">
     <div class="logo-ring"><img src="logo.webp" alt="7lwany Store" width="240" height="240"></div>
-    <h1>كروت <em>App Store &amp; iTunes</em><br>لكل الدول</h1>
+    <h1>كروت <em>ايتونز</em> وعملات <em>تيك توك</em></h1>
     <p>متجرك الموثوق لشحن كل تطبيقات وألعاب الـ App Store. أكواد أصلية من مصادر رسمية، بتوصلك فوراً على الواتساب، ودعم متاح لأي استفسار.</p>
     <div class="trust">
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>أكواد أصلية 100%</div>
@@ -216,7 +242,31 @@ footer .links a:hover{color:var(--emerald)}
     </div>
   </section>
 
-  <section class="sec" id="countries">
+  <section class="sec" id="products">
+    <div class="sec-head">
+      <h2>منتجاتنا</h2>
+      <small>اختار المنتج اللي محتاجه</small>
+    </div>
+    <div class="products">
+      <button class="product" type="button" data-go="itunes" aria-label="كروت ايتونز">
+        <span class="pface itunes"><span class="ptag">App Store &amp; iTunes</span></span>
+        <span class="meta"><span><b>كروت ايتونز</b><span class="cnt" id="itunesCnt"></span></span><i>‹</i></span>
+      </button>
+      <button class="product" type="button" data-go="tiktok" aria-label="عملات تيك توك">
+        <span class="pface tiktok"><svg class="coins" viewBox="0 0 120 90" aria-hidden="true">
+  <defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE58A"/><stop offset=".55" stop-color="#F5B82E"/><stop offset="1" stop-color="#C98A12"/></linearGradient></defs>
+  <g><ellipse cx="44" cy="70" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="58" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="58" rx="26" ry="9" fill="url(#cg)"/>
+     <ellipse cx="44" cy="52" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="40" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="40" rx="26" ry="9" fill="url(#cg)"/></g>
+  <g transform="translate(78 42)"><circle r="26" fill="#B07A10"/><circle r="24" cy="-2" fill="url(#cg)"/><circle r="17" cy="-2" fill="none" stroke="#FFF3C4" stroke-width="2.5" opacity=".8"/>
+     <path d="M0-13 3.6-5.3 12-4.6 5.7 1 7.6 9.3 0 5 -7.6 9.3 -5.7 1 -12-4.6 -3.6-5.3Z" fill="#FFF3C4" opacity=".9"/></g>
+</svg><span class="ptag light">TikTok Coins</span></span>
+        <span class="meta"><span><b>عملات تيك توك</b><span class="cnt" id="tiktokCnt"></span></span><i>‹</i></span>
+      </button>
+    </div>
+  </section>
+
+  <section class="sec" id="countries" hidden>
+    <button class="back" data-back="products" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>كل المنتجات</button>
     <div class="sec-head">
       <h2>كروت ايتونز — اختار دولة حسابك</h2>
       <small>اضغط على الدولة يفتحلك أسعارها</small>
@@ -233,6 +283,15 @@ footer .links a:hover{color:var(--emerald)}
       <small id="pricesSub"></small>
     </div>
     <div class="grid" id="priceGrid"></div>
+  </section>
+
+  <section class="sec" id="tiktok" hidden>
+    <button class="back" data-back="products" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>كل المنتجات</button>
+    <div class="sec-head">
+      <h2>عملات تيك توك</h2>
+      <small>شحن عملات TikTok لحسابك</small>
+    </div>
+    <div class="grid" id="tiktokGrid"></div>
   </section>
 
   <section id="how" class="sec">
@@ -285,12 +344,20 @@ const COUNTRIES = [
   { key:'ae', region:'UAE', name:'الإمارات', adj:'إماراتي', cur:'AED', prices:[] },
   { key:'sa', region:'KSA', name:'السعودية', adj:'سعودي',  cur:'SAR', prices:[] },
 ];
+
+// عملات تيك توك: [عدد العملات, السعر بالجنيه]
+const TIKTOK = [
+  [70,55],[100,80],[150,115],[200,160],[300,210],[350,235],[500,335],[700,460],[830,530],
+  [1000,620],[2000,1240],[3000,1860],[4000,2480],[5000,3100],[6000,3720],[7000,4340],[8000,4960],[9000,5580],[10000,6200],
+  [15000,9255],[17500,10800],[20000,12340],[30000,18500],[40000,24600],[50000,30600],[75000,45750],[100000,60800]
+];
 // ===========================================================
 
 const FLAG_CODE = { eg:'eg', us:'us', tr:'tr', ae:'ae', sa:'sa' };
 const FLAGS = Object.fromEntries(Object.entries(FLAG_CODE).map(([k,c]) =>
   [k, `<img src="flags/${c}.svg" alt="">`]));
 
+const COIN = `<svg class="coins" viewBox="0 0 120 90" aria-hidden="true">  <defs><linearGradient id="cg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE58A"/><stop offset=".55" stop-color="#F5B82E"/><stop offset="1" stop-color="#C98A12"/></linearGradient></defs>  <g><ellipse cx="44" cy="70" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="58" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="58" rx="26" ry="9" fill="url(#cg2)"/>     <ellipse cx="44" cy="52" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="40" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="40" rx="26" ry="9" fill="url(#cg2)"/></g>  <g transform="translate(78 42)"><circle r="26" fill="#B07A10"/><circle r="24" cy="-2" fill="url(#cg2)"/><circle r="17" cy="-2" fill="none" stroke="#FFF3C4" stroke-width="2.5" opacity=".8"/>     <path d="M0-13 3.6-5.3 12-4.6 5.7 1 7.6 9.3 0 5 -7.6 9.3 -5.7 1 -12-4.6 -3.6-5.3Z" fill="#FFF3C4" opacity=".9"/></g></svg>`;
 const fmt = n => Number(n).toLocaleString('en');
 const waIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
 const waLink = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
@@ -309,7 +376,7 @@ document.getElementById('countryGrid').innerHTML = COUNTRIES.map(c => `
 
 document.querySelectorAll('.country').forEach(b =>
   b.addEventListener('click', () => { location.hash = b.dataset.key; }));
-document.getElementById('backBtn').addEventListener('click', () => { location.hash = 'countries'; });
+document.getElementById('backBtn').addEventListener('click', () => { location.hash = 'itunes'; });
 
 // ---- price cards ----
 function priceCard(c, value, price){
@@ -350,21 +417,64 @@ function requestCard(c){
   </article>`;
 }
 
-// ---- routing: #eg / #us / ... ----
-const listSec = document.getElementById('countries');
+// ---- routing: #products / #itunes / #eg ... / #tiktok ----
+const SECS = ['products','countries','prices','tiktok'].map(id => document.getElementById(id));
 const priceSec = document.getElementById('prices');
+function show(id){ SECS.forEach(x => x.hidden = x.id !== id); document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+
+function coinCard(coins, price){
+  const msg = `السلام عليكم كنت محتاج شحن ${fmt(coins)} عملة تيك توك`;
+  return `
+  <article class="card">
+    <div class="gift tt">${COIN}
+      <div class="gift-top"><span class="gift-brand"></span></div>
+      <div class="gift-val">${fmt(coins)}<sub>COINS</sub></div>
+    </div>
+    <span class="badge"><i></i>متوفر</span>
+    <div class="name">${fmt(coins)} عملة تيك توك</div>
+    <div class="sub">شحن مباشر لحسابك</div>
+    <div class="row"><div class="price">${fmt(price)}<small>ج.م</small></div>
+      <a class="buy" data-track="buy-tiktok-${coins}" href="${waLink(msg)}" target="_blank" rel="noopener">${waIcon}شراء</a>
+    </div>
+  </article>`;
+}
+function coinRequestCard(){
+  return `
+  <article class="card">
+    <div class="gift tt">${COIN}<div class="gift-top"><span class="gift-brand"></span></div>
+      <div class="gift-val" style="font-size:16px">كل الباقات</div></div>
+    <span class="badge"><i></i>متاح بالطلب</span>
+    <div class="name">عملات تيك توك</div>
+    <div class="sub">كلمنا ونحددلك الباقة</div>
+    <div class="row"><div class="price ask">السعر على الواتساب</div>
+      <a class="buy" data-track="order-tiktok" href="${waLink('السلام عليكم كنت محتاج شحن عملات تيك توك')}" target="_blank" rel="noopener">${waIcon}اطلب</a>
+    </div>
+  </article>`;
+}
+
 function route(){
   const key = location.hash.slice(1);
   const c = COUNTRIES.find(x => x.key === key);
-  if (!c){ priceSec.hidden = true; listSec.hidden = false; if (key === 'countries') listSec.scrollIntoView(); return; }
-  listSec.hidden = true; priceSec.hidden = false;
-  document.getElementById('pricesTitle').innerHTML = `<span class="flag">${FLAGS[c.key]}</span>ايتونز ${c.adj}`;
-  document.getElementById('pricesSub').textContent = `للحسابات المسجلة على متجر ${c.name}`;
-  document.getElementById('priceGrid').innerHTML = c.prices.length
-    ? c.prices.map(([v,p]) => priceCard(c,v,p)).join('')
-    : requestCard(c);
-  priceSec.scrollIntoView({behavior:'smooth'});
+  if (c){
+    document.getElementById('pricesTitle').innerHTML = `<span class="flag">${FLAGS[c.key]}</span>ايتونز ${c.adj}`;
+    document.getElementById('pricesSub').textContent = `للحسابات المسجلة على متجر ${c.name}`;
+    document.getElementById('priceGrid').innerHTML = c.prices.length
+      ? c.prices.map(([v,p]) => priceCard(c,v,p)).join('') : requestCard(c);
+    return show('prices');
+  }
+  if (key === 'itunes' || key === 'countries') return show('countries');
+  if (key === 'tiktok'){
+    document.getElementById('tiktokGrid').innerHTML = TIKTOK.length
+      ? TIKTOK.map(([n,p]) => coinCard(n,p)).join('') : coinRequestCard();
+    return show('tiktok');
+  }
+  SECS.forEach(x => x.hidden = x.id !== 'products');
+  if (key === 'products') document.getElementById('products').scrollIntoView({behavior:'smooth'});
 }
+document.querySelectorAll('.product').forEach(b => b.addEventListener('click', () => { location.hash = b.dataset.go; }));
+document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => { location.hash = b.dataset.back; }));
+document.getElementById('itunesCnt').textContent = COUNTRIES.length + ' دول';
+document.getElementById('tiktokCnt').textContent = TIKTOK.length ? TIKTOK.length + ' باقة' : 'متاح بالطلب';
 window.addEventListener('hashchange', route);
 route();
 document.getElementById('yr').textContent = new Date().getFullYear();
@@ -381,6 +491,8 @@ document.addEventListener('click', e => {
   }
   const c = e.target.closest('.country');
   if (c) track(`/country/${c.dataset.key}`);
+  const pr = e.target.closest('.product');
+  if (pr) track(`/product/${pr.dataset.go}`);
 });
 </script>
 </body>
