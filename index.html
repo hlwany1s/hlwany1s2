@@ -57,11 +57,6 @@ a{color:inherit;text-decoration:none}
 .trust svg{width:18px;height:18px;color:var(--emerald);flex-shrink:0}
 
 /* ===== Tabs ===== */
-.switch{display:flex;justify-content:center;margin:34px 0 10px}
-.switch-in{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px;padding:6px;border-radius:999px;background:var(--navy2);border:1px solid var(--line)}
-.switch button{font-family:inherit;font-weight:800;font-size:15px;border:0;cursor:pointer;color:var(--muted);
-  background:transparent;padding:12px 22px;border-radius:999px;display:flex;align-items:center;gap:8px;transition:.25s}
-.switch button.on{background:linear-gradient(135deg,var(--emerald),var(--deep));color:var(--white);box-shadow:0 6px 24px rgba(16,185,129,.35)}
 .flag{width:22px;height:15px;border-radius:3px;overflow:hidden;display:inline-block;flex-shrink:0}
 
 /* ===== Section ===== */
@@ -71,6 +66,24 @@ a{color:inherit;text-decoration:none}
 .sec-head h2 .flag{width:30px;height:20px}
 .sec-head small{color:var(--muted);font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+
+/* ===== Countries ===== */
+.countries{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.country{font-family:inherit;color:inherit;text-align:right;cursor:pointer;display:flex;align-items:center;gap:14px;
+  padding:18px;border-radius:18px;background:linear-gradient(180deg,rgba(15,37,56,.9),rgba(7,21,37,.95));
+  border:1px solid var(--line);transition:transform .2s,border-color .2s,box-shadow .2s}
+.country:hover{transform:translateY(-3px);border-color:rgba(16,185,129,.5);box-shadow:0 14px 34px rgba(16,185,129,.15)}
+.country .cflag{width:46px;height:31px;border-radius:6px;overflow:hidden;flex-shrink:0;box-shadow:0 4px 12px rgba(0,0,0,.35)}
+.country .cflag svg{width:100%;height:100%;display:block}
+.country b{display:block;font-weight:800;font-size:16px;white-space:nowrap}
+.country span{display:block;color:var(--mint);font-size:13px;margin-top:3px;font-weight:700}
+.country i{margin-inline-start:auto;color:var(--emerald);font-style:normal;font-size:20px}
+.back{font-family:inherit;display:inline-flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:14px;
+  padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--navy2);color:var(--mint);font-weight:800;font-size:14px}
+.back svg{width:16px;height:16px}
+.back:hover{border-color:rgba(16,185,129,.5)}
+.sec-head h2 .flag svg{width:30px;height:20px;display:block}
+@media(max-width:640px){.countries{grid-template-columns:1fr 1fr;gap:10px}.country{flex-direction:column;align-items:flex-start;padding:14px;gap:10px}.country i{display:none}}
 
 /* ===== Product card ===== */
 .card{position:relative;border-radius:20px;padding:14px;background:linear-gradient(180deg,rgba(15,37,56,.9),rgba(7,21,37,.95));
@@ -138,8 +151,6 @@ footer .links a:hover{color:var(--emerald)}
 .tg{background:#229ED9;color:#fff}
 
 @media(max-width:640px){
-  .switch button{padding:10px 14px;font-size:14px}
-  .switch-in{border-radius:22px}
   .nav{display:none}
   .how{grid-template-columns:1fr}
   .grid{grid-template-columns:repeat(2,1fr);gap:12px}
@@ -159,9 +170,7 @@ footer .links a:hover{color:var(--emerald)}
   <div class="wrap">
     <a class="brand" href="#"><img src="logo.webp" alt="7lwany Store"><span><b>7lwany</b> Store</span></a>
     <nav class="nav">
-      <a href="#eg">ايتونز مصري</a>
-      <a href="#us">ايتونز أمريكي</a>
-      <a href="#other">دول تانية</a>
+      <a href="#countries">الدول</a>
       <a href="#how">طريقة الشراء</a>
     </nav>
   </div>
@@ -170,7 +179,7 @@ footer .links a:hover{color:var(--emerald)}
 <main class="wrap">
   <section class="hero">
     <div class="logo-ring"><img src="logo.webp" alt="7lwany Store" width="240" height="240"></div>
-    <h1>كروت <em>App Store &amp; iTunes</em><br>مصري وأمريكي</h1>
+    <h1>كروت <em>App Store &amp; iTunes</em><br>لكل الدول</h1>
     <p>متجرك الموثوق لشحن كل تطبيقات وألعاب الـ App Store. أكواد أصلية من مصادر رسمية، بتوصلك فوراً على الواتساب، ودعم متاح لأي استفسار.</p>
     <div class="trust">
       <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>أكواد أصلية 100%</div>
@@ -191,46 +200,33 @@ footer .links a:hover{color:var(--emerald)}
     </div>
     <div class="note">
       <h3>📌 قبل الطلب</h3>
-      <p>اتأكد من <b>بلد حساب Apple ID</b> بتاعك (🇪🇬 مصر أو 🇺🇸 أمريكا)، لأن كل كارت بيشتغل على <b>نفس دولة الحساب فقط</b>.</p>
+      <p>اتأكد من <b>بلد حساب Apple ID</b> بتاعك (مصر، أمريكا، تركيا، الإمارات، السعودية…)، لأن كل كارت بيشتغل على <b>نفس دولة الحساب فقط</b>.</p>
     </div>
   </section>
 
-  <div class="switch">
-    <div class="switch-in">
-      <button class="on" data-go="eg"><span class="flag" aria-hidden="true"><svg viewBox="0 0 3 2" width="22" height="15"><rect width="3" height="2" fill="#000"/><rect width="3" height="1.333" fill="#fff"/><rect width="3" height=".667" fill="#CE1126"/><circle cx="1.5" cy="1" r=".18" fill="#C09300"/></svg></span>ايتونز مصري</button>
-      <button data-go="us"><span class="flag" aria-hidden="true"><svg viewBox="0 0 19 10" width="22" height="15"><rect width="19" height="10" fill="#B22234"/><g fill="#fff"><rect y=".77" width="19" height=".77"/><rect y="2.31" width="19" height=".77"/><rect y="3.85" width="19" height=".77"/><rect y="5.38" width="19" height=".77"/><rect y="6.92" width="19" height=".77"/><rect y="8.46" width="19" height=".77"/></g><rect width="7.6" height="5.38" fill="#3C3B6E"/></svg></span>ايتونز أمريكي</button>
-      <button data-go="other"><span aria-hidden="true">🌍</span>دول تانية</button>
-    </div>
-  </div>
-
-  <section class="sec" id="eg">
+  <section class="sec" id="countries">
     <div class="sec-head">
-      <h2><span class="flag" id="flagEG"></span>ايتونز مصري</h2>
-      <small>للحسابات المصرية</small>
+      <h2>كروت ايتونز — اختار دولة حسابك</h2>
+      <small>اضغط على الدولة يفتحلك أسعارها</small>
     </div>
-    <div class="grid" id="gridEG"></div>
+    <div class="countries" id="countryGrid"></div>
   </section>
 
-  <section class="sec" id="us">
+  <section class="sec" id="prices" hidden>
+    <button class="back" id="backBtn" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>كل الدول
+    </button>
     <div class="sec-head">
-      <h2><span class="flag" id="flagUS"></span>ايتونز أمريكي</h2>
-      <small>للحسابات الأمريكية</small>
+      <h2 id="pricesTitle"></h2>
+      <small id="pricesSub"></small>
     </div>
-    <div class="grid" id="gridUS"></div>
-  </section>
-
-  <section class="sec" id="other">
-    <div class="sec-head">
-      <h2>🌍 دول تانية</h2>
-      <small>تركي · إماراتي · سعودي</small>
-    </div>
-    <div class="grid" id="gridOther"></div>
+    <div class="grid" id="priceGrid"></div>
   </section>
 
   <section id="how" class="sec">
     <div class="sec-head"><h2>طريقة الشراء</h2></div>
     <div class="how">
-      <div class="step"><b>1</b><h3>اختار الفئة</h3><p>اختار نوع الكارت (مصري أو أمريكي) والفئة اللي محتاجها.</p></div>
+      <div class="step"><b>1</b><h3>اختار الفئة</h3><p>اختار دولة حسابك، وبعدين الفئة اللي محتاجها.</p></div>
       <div class="step"><b>2</b><h3>اضغط شراء</h3><p>هيفتحلك الواتساب برسالة جاهزة فيها طلبك، ابعتها بس.</p></div>
       <div class="step"><b>3</b><h3>استلم الكود</h3><p>بعد الدفع هيوصلك الكود فوراً مع لينك الاسترداد المباشر.</p></div>
     </div>
@@ -259,97 +255,109 @@ footer .links a:hover{color:var(--emerald)}
 </div>
 
 <script>
-// ============ عدّل الفئات والأسعار من هنا ============
+// ============ عدّل الدول والفئات والأسعار من هنا ============
 const WHATSAPP = '201080236574';
 
-const EG = [ // [الفئة بالجنيه, السعر]
-  [150,225],[250,325],[300,390],[400,520],[500,650],[600,780],
-  [750,975],[1000,1300],[1500,1950],[2000,2600],[2500,3250],[3000,3900]
+// prices: [الفئة, السعر بالجنيه] — اكتب null بدل السعر لو السعر على الواتس
+// لو prices فاضية [] الدولة بتظهر "بالطلب" وزرار واحد للواتس
+const COUNTRIES = [
+  { key:'eg', name:'مصر', adj:'مصري', cur:'EGP', prices:[
+    [150,225],[250,325],[300,390],[400,520],[500,650],[600,780],
+    [750,975],[1000,1300],[1500,1950],[2000,2600],[2500,3250],[3000,3900]
+  ]},
+  { key:'us', name:'أمريكا', adj:'أمريكي', cur:'USD', prices:[
+    [2,150],[4,300],[5,350],[10,700],[15,1050],[20,1400],[25,1750],
+    [30,2100],[40,2800],[50,3500],[60,4200],[70,4900],[100,7000],[150,10500]
+  ]},
+  { key:'tr', name:'تركيا',   adj:'تركي',   cur:'TRY', prices:[] },
+  { key:'ae', name:'الإمارات', adj:'إماراتي', cur:'AED', prices:[] },
+  { key:'sa', name:'السعودية', adj:'سعودي',  cur:'SAR', prices:[] },
 ];
+// ===========================================================
 
-const US = [ // [الفئة بالدولار, السعر بالجنيه — اكتب null لو السعر على الواتس]
-  [2,150],[4,300],[5,350],[10,700],[15,1050],[20,1400],[25,1750],
-  [30,2100],[40,2800],[50,3500],[60,4200],[70,4900],[100,7000],[150,10500]
-];
-
-const OTHER = [ // [المفتاح, اسم الدولة, اسم المتجر]
-  ['tr','تركي','متجر تركيا'],
-  ['ae','إماراتي','متجر الإمارات'],
-  ['sa','سعودي','متجر السعودية'],
-];
-// =====================================================
-
-const FLAG_EG = document.querySelector('[data-go="eg"] .flag').innerHTML;
-const FLAG_US = document.querySelector('[data-go="us"] .flag').innerHTML;
-document.getElementById('flagEG').innerHTML = FLAG_EG.replace('width="22" height="15"','width="30" height="20"');
-document.getElementById('flagUS').innerHTML = FLAG_US.replace('width="22" height="15"','width="30" height="20"');
-
-const fmt = n => n.toLocaleString('en');
 const FLAGS = {
-  tr: '<svg viewBox="0 0 30 20" width="22" height="15"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><polygon fill="#fff" points="16,10 19.6,8.8 17.4,11.9 17.4,8.1 19.6,11.2"/></svg>',
-  ae: '<svg viewBox="0 0 12 6" width="22" height="15"><rect width="12" height="6" fill="#00732F"/><rect y="2" width="12" height="2" fill="#fff"/><rect y="4" width="12" height="2" fill="#000"/><rect width="3" height="6" fill="#FF0000"/></svg>',
-  sa: '<svg viewBox="0 0 30 20" width="22" height="15"><rect width="30" height="20" fill="#006C35"/><rect x="8" y="12.5" width="14" height="1.3" rx=".6" fill="#fff"/><rect x="9" y="6" width="12" height="4.5" rx="1" fill="#fff" opacity=".85"/></svg>'
+  eg:'<svg viewBox="0 0 3 2"><rect width="3" height="2" fill="#000"/><rect width="3" height="1.333" fill="#fff"/><rect width="3" height=".667" fill="#CE1126"/><circle cx="1.5" cy="1" r=".18" fill="#C09300"/></svg>',
+  us:'<svg viewBox="0 0 19 10" preserveAspectRatio="none"><rect width="19" height="10" fill="#B22234"/><g fill="#fff"><rect y=".77" width="19" height=".77"/><rect y="2.31" width="19" height=".77"/><rect y="3.85" width="19" height=".77"/><rect y="5.38" width="19" height=".77"/><rect y="6.92" width="19" height=".77"/><rect y="8.46" width="19" height=".77"/></g><rect width="7.6" height="5.38" fill="#3C3B6E"/></svg>',
+  tr:'<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#E30A17"/><circle cx="11" cy="10" r="5" fill="#fff"/><circle cx="12.3" cy="10" r="4" fill="#E30A17"/><polygon fill="#fff" points="16,10 19.6,8.8 17.4,11.9 17.4,8.1 19.6,11.2"/></svg>',
+  ae:'<svg viewBox="0 0 12 6" preserveAspectRatio="none"><rect width="12" height="6" fill="#00732F"/><rect y="2" width="12" height="2" fill="#fff"/><rect y="4" width="12" height="2" fill="#000"/><rect width="3" height="6" fill="#FF0000"/></svg>',
+  sa:'<svg viewBox="0 0 30 20"><rect width="30" height="20" fill="#006C35"/><rect x="8" y="12.5" width="14" height="1.3" rx=".6" fill="#fff"/><rect x="9" y="6" width="12" height="4.5" rx="1" fill="#fff" opacity=".85"/></svg>'
 };
 
+const fmt = n => Number(n).toLocaleString('en');
 const waIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
+const waLink = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+const valLabel = (c, v) => c.cur === 'USD' ? `$${v}` : `${fmt(v)} ${c.cur}`;
+const valAr    = (c, v) => c.cur === 'USD' ? `${v}$` : c.cur === 'EGP' ? `${v} ج.م` : `${v} ${c.cur}`;
 
-function card(type, value, price){
-  const isEG = type === 'eg';
-  const label = isEG ? `${value} ج.م` : `${value}$`;
-  const msg = isEG
+// ---- country tiles ----
+document.getElementById('countryGrid').innerHTML = COUNTRIES.map(c => `
+  <button class="country" type="button" data-key="${c.key}">
+    <span class="cflag">${FLAGS[c.key]}</span>
+    <div><b>ايتونز ${c.adj}</b><span>${c.prices.length ? c.prices.length + ' فئة متوفرة' : 'متاح بالطلب'}</span></div>
+    <i>‹</i>
+  </button>`).join('');
+
+document.querySelectorAll('.country').forEach(b =>
+  b.addEventListener('click', () => { location.hash = b.dataset.key; }));
+document.getElementById('backBtn').addEventListener('click', () => { location.hash = 'countries'; });
+
+// ---- price cards ----
+function priceCard(c, value, price){
+  const msg = c.key === 'eg'
     ? `السلام عليكم كنت محتاج كود فئة ${value} ايتونز مصري`
-    : `السلام عليكم كنت محتاج كود فئة ${value}$ ايتونز أمريكي`;
-  const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+    : `السلام عليكم كنت محتاج كود فئة ${valAr(c,value)} ايتونز ${c.adj}`;
   const priceHtml = price
     ? `<div class="price">${fmt(price)}<small>ج.م</small></div>`
     : `<div class="price ask">السعر على الواتساب</div>`;
   return `
   <article class="card">
-    <div class="gift ${isEG ? '' : 'us'}">
-      <div class="gift-top"><span class="gift-brand">App Store &amp; iTunes</span><span class="flag">${isEG ? FLAG_EG : FLAG_US}</span></div>
-      <div class="gift-val">${isEG ? fmt(value) + '<sub>EGP</sub>' : '$' + value}</div>
+    <div class="gift">
+      <div class="gift-top"><span class="gift-brand"></span><span class="flag">${FLAGS[c.key]}</span></div>
+      <div class="gift-val">${valLabel(c,value)}</div>
     </div>
     <span class="badge"><i></i>متوفر</span>
-    <div class="name">كارت ايتونز ${label}</div>
-    <div class="sub">${isEG ? 'متجر مصر' : 'متجر أمريكا'}</div>
-    <div class="row">
-      ${priceHtml}
-      <a class="buy" href="${link}" target="_blank" rel="noopener">${waIcon}شراء</a>
+    <div class="name">كارت ايتونز ${valAr(c,value)}</div>
+    <div class="sub">متجر ${c.name}</div>
+    <div class="row">${priceHtml}
+      <a class="buy" href="${waLink(msg)}" target="_blank" rel="noopener">${waIcon}شراء</a>
     </div>
   </article>`;
 }
 
-document.getElementById('gridEG').innerHTML = EG.map(([v,p]) => card('eg', v, p)).join('');
-document.getElementById('gridUS').innerHTML = US.map(([v,p]) => card('us', v, p)).join('');
-document.getElementById('gridOther').innerHTML = OTHER.map(([k,name,store]) => {
-  const msg = `السلام عليكم كنت محتاج كود ايتونز ${name}`;
-  const link = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+function requestCard(c){
   return `
   <article class="card">
     <div class="gift">
-      <div class="gift-top"><span class="gift-brand"></span><span class="flag">${FLAGS[k]}</span></div>
+      <div class="gift-top"><span class="gift-brand"></span><span class="flag">${FLAGS[c.key]}</span></div>
       <div class="gift-val" style="font-size:16px">كل الفئات</div>
     </div>
     <span class="badge"><i></i>متاح بالطلب</span>
-    <div class="name">كارت ايتونز ${name}</div>
-    <div class="sub">${store} — كلمنا نحدد الفئة</div>
-    <div class="row">
-      <div class="price ask">السعر على الواتساب</div>
-      <a class="buy" href="${link}" target="_blank" rel="noopener">${waIcon}اطلب</a>
+    <div class="name">كارت ايتونز ${c.adj}</div>
+    <div class="sub">متجر ${c.name} — كلمنا نحدد الفئة</div>
+    <div class="row"><div class="price ask">السعر على الواتساب</div>
+      <a class="buy" href="${waLink('السلام عليكم كنت محتاج كود ايتونز ' + c.adj)}" target="_blank" rel="noopener">${waIcon}اطلب</a>
     </div>
   </article>`;
-}).join('');
-document.getElementById('yr').textContent = new Date().getFullYear();
+}
 
-// التبديل بين القائمتين
-const btns = document.querySelectorAll('.switch button');
-btns.forEach(b => b.addEventListener('click', () => {
-  document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth'});
-}));
-const io = new IntersectionObserver(es => es.forEach(e => {
-  if (e.isIntersecting) btns.forEach(b => b.classList.toggle('on', b.dataset.go === e.target.id));
-}), {rootMargin:'-45% 0px -50% 0px'});
-['eg','us','other'].forEach(id => io.observe(document.getElementById(id)));
+// ---- routing: #eg / #us / ... ----
+const listSec = document.getElementById('countries');
+const priceSec = document.getElementById('prices');
+function route(){
+  const key = location.hash.slice(1);
+  const c = COUNTRIES.find(x => x.key === key);
+  if (!c){ priceSec.hidden = true; listSec.hidden = false; if (key === 'countries') listSec.scrollIntoView(); return; }
+  listSec.hidden = true; priceSec.hidden = false;
+  document.getElementById('pricesTitle').innerHTML = `<span class="flag">${FLAGS[c.key]}</span>ايتونز ${c.adj}`;
+  document.getElementById('pricesSub').textContent = `للحسابات المسجلة على متجر ${c.name}`;
+  document.getElementById('priceGrid').innerHTML = c.prices.length
+    ? c.prices.map(([v,p]) => priceCard(c,v,p)).join('')
+    : requestCard(c);
+  priceSec.scrollIntoView({behavior:'smooth'});
+}
+window.addEventListener('hashchange', route);
+route();
+document.getElementById('yr').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
