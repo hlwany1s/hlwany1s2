@@ -107,11 +107,11 @@ a{color:inherit;text-decoration:none}
 .pface.tiktok,.gift.tt{background:
   radial-gradient(120% 90% at 0% 0%,rgba(37,244,238,.45),transparent 55%),
   radial-gradient(120% 90% at 100% 100%,rgba(254,44,85,.55),transparent 55%),#0b0b10}
-.pface .coins{width:62%;filter:drop-shadow(0 8px 16px rgba(0,0,0,.45))}
+.pface .coins{width:78%;filter:drop-shadow(0 8px 16px rgba(0,0,0,.45))}
 .ptag{position:absolute;left:12px;bottom:10px;direction:ltr;font-weight:800;font-size:14px;color:#0F2538}
 .ptag.light{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.5)}
 .gift.tt{color:#fff}
-.gift.tt .coins{position:absolute;right:8px;top:8px;width:46%}
+.gift.tt .coins{position:absolute;right:2px;top:2px;width:62%}
 .gift.tt .gift-val{color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.5)}
 .gift.tt .gift-val sub{color:#FFE58A}
 @media(max-width:640px){.products{gap:10px}.product{padding:8px;border-radius:16px}.ptag{font-size:11px;left:8px;bottom:6px}}
@@ -121,6 +121,37 @@ a{color:inherit;text-decoration:none}
 .product span.cnt{display:block;color:var(--mint);font-size:13px;margin-top:2px;font-weight:700}
 .product i{color:var(--emerald);font-style:normal;font-size:22px;line-height:1}
 @media(max-width:640px){.product b{font-size:14px}.product i{display:none}}
+.custom{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:16px;align-items:center;
+  padding:18px;border-radius:20px;border:1px solid rgba(16,185,129,.45);
+  background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(15,37,56,.9))}
+.custom h3{font-weight:800;font-size:19px}
+.custom p{color:var(--muted);font-size:14px;margin-top:4px;line-height:1.7}
+.custom .in{display:flex;gap:8px;margin-top:12px}
+.custom input{flex:1;min-width:0;font-family:inherit;font-weight:800;font-size:20px;padding:12px 14px;border-radius:12px;
+  border:1px solid var(--line);background:var(--navy);color:var(--white);direction:ltr;text-align:left;outline:none}
+.custom input:focus{border-color:var(--emerald)}
+.custom .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.custom .chips button{font-family:inherit;font-weight:700;font-size:13px;padding:6px 10px;border-radius:999px;cursor:pointer;
+  border:1px solid var(--line);background:var(--navy2);color:var(--mint)}
+.custom .res{text-align:center;padding:16px;border-radius:16px;background:rgba(7,21,37,.7);border:1px solid var(--line)}
+.custom .res small{color:var(--muted);font-size:13px;display:block}
+.custom .res .big{font-weight:800;font-size:32px;margin:6px 0}
+.custom .res .big span{font-size:15px;color:var(--mint)}
+.custom .res .err{color:#fca5a5;font-size:13px;min-height:18px}
+.custom .res .buy{width:100%;justify-content:center;margin-top:8px}
+.custom .res .buy[aria-disabled=true]{opacity:.45;pointer-events:none}
+@media(max-width:640px){.custom{grid-template-columns:1fr}}
+/* ===== Simple coin cards ===== */
+.coinbox{display:flex;align-items:center;justify-content:center;gap:10px;aspect-ratio:2.2;border-radius:14px;direction:ltr;
+  background:linear-gradient(135deg,rgba(16,185,129,.18),rgba(15,37,56,.9));border:1px solid var(--line)}
+.coinbox .ico{font-size:30px;line-height:1}
+.coinbox strong{font-weight:800;font-size:28px;color:#fff}
+.coinbox small{display:block;font-size:11px;font-weight:800;letter-spacing:2px;color:#FFE58A}
+.pface.tiktok{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#fff}
+.pface.tiktok .ico{font-size:52px;line-height:1}
+.pface.tiktok b{font-weight:800;font-size:20px;direction:ltr}
+@media(max-width:640px){.coinbox strong{font-size:21px}.coinbox .ico{font-size:22px}.pface.tiktok .ico{font-size:38px}.pface.tiktok b{font-size:15px}}
+
 /* ===== Product card ===== */
 .card{position:relative;border-radius:20px;padding:14px;background:linear-gradient(180deg,rgba(15,37,56,.9),rgba(7,21,37,.95));
   border:1px solid var(--line);transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column}
@@ -253,13 +284,7 @@ footer .links a:hover{color:var(--emerald)}
         <span class="meta"><span><b>كروت ايتونز</b><span class="cnt" id="itunesCnt"></span></span><i>‹</i></span>
       </button>
       <button class="product" type="button" data-go="tiktok" aria-label="عملات تيك توك">
-        <span class="pface tiktok"><svg class="coins" viewBox="0 0 120 90" aria-hidden="true">
-  <defs><linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE58A"/><stop offset=".55" stop-color="#F5B82E"/><stop offset="1" stop-color="#C98A12"/></linearGradient></defs>
-  <g><ellipse cx="44" cy="70" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="58" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="58" rx="26" ry="9" fill="url(#cg)"/>
-     <ellipse cx="44" cy="52" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="40" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="40" rx="26" ry="9" fill="url(#cg)"/></g>
-  <g transform="translate(78 42)"><circle r="26" fill="#B07A10"/><circle r="24" cy="-2" fill="url(#cg)"/><circle r="17" cy="-2" fill="none" stroke="#FFF3C4" stroke-width="2.5" opacity=".8"/>
-     <path d="M0-13 3.6-5.3 12-4.6 5.7 1 7.6 9.3 0 5 -7.6 9.3 -5.7 1 -12-4.6 -3.6-5.3Z" fill="#FFF3C4" opacity=".9"/></g>
-</svg><span class="ptag light">TikTok Coins</span></span>
+        <span class="pface tiktok" id="ttFace"></span>
         <span class="meta"><span><b>عملات تيك توك</b><span class="cnt" id="tiktokCnt"></span></span><i>‹</i></span>
       </button>
     </div>
@@ -357,7 +382,6 @@ const FLAG_CODE = { eg:'eg', us:'us', tr:'tr', ae:'ae', sa:'sa' };
 const FLAGS = Object.fromEntries(Object.entries(FLAG_CODE).map(([k,c]) =>
   [k, `<img src="flags/${c}.svg" alt="">`]));
 
-const COIN = `<svg class="coins" viewBox="0 0 120 90" aria-hidden="true">  <defs><linearGradient id="cg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE58A"/><stop offset=".55" stop-color="#F5B82E"/><stop offset="1" stop-color="#C98A12"/></linearGradient></defs>  <g><ellipse cx="44" cy="70" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="58" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="58" rx="26" ry="9" fill="url(#cg2)"/>     <ellipse cx="44" cy="52" rx="26" ry="9" fill="#B07A10"/><rect x="18" y="40" width="52" height="12" fill="#D99A1C"/><ellipse cx="44" cy="40" rx="26" ry="9" fill="url(#cg2)"/></g>  <g transform="translate(78 42)"><circle r="26" fill="#B07A10"/><circle r="24" cy="-2" fill="url(#cg2)"/><circle r="17" cy="-2" fill="none" stroke="#FFF3C4" stroke-width="2.5" opacity=".8"/>     <path d="M0-13 3.6-5.3 12-4.6 5.7 1 7.6 9.3 0 5 -7.6 9.3 -5.7 1 -12-4.6 -3.6-5.3Z" fill="#FFF3C4" opacity=".9"/></g></svg>`;
 const fmt = n => Number(n).toLocaleString('en');
 const waIcon = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg>';
 const waLink = msg => `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
@@ -426,10 +450,7 @@ function coinCard(coins, price){
   const msg = `السلام عليكم كنت محتاج شحن ${fmt(coins)} عملة تيك توك`;
   return `
   <article class="card">
-    <div class="gift tt">${COIN}
-      <div class="gift-top"><span class="gift-brand"></span></div>
-      <div class="gift-val">${fmt(coins)}<sub>COINS</sub></div>
-    </div>
+    <div class="coinbox"><span class="ico">🪙</span><div><strong>${fmt(coins)}</strong><small>COINS</small></div></div>
     <span class="badge"><i></i>متوفر</span>
     <div class="name">${fmt(coins)} عملة تيك توك</div>
     <div class="sub">شحن مباشر لحسابك</div>
@@ -441,8 +462,7 @@ function coinCard(coins, price){
 function coinRequestCard(){
   return `
   <article class="card">
-    <div class="gift tt">${COIN}<div class="gift-top"><span class="gift-brand"></span></div>
-      <div class="gift-val" style="font-size:16px">كل الباقات</div></div>
+    <div class="coinbox"><span class="ico">🪙</span><div><strong>كل الباقات</strong></div></div>
     <span class="badge"><i></i>متاح بالطلب</span>
     <div class="name">عملات تيك توك</div>
     <div class="sub">كلمنا ونحددلك الباقة</div>
@@ -450,6 +470,51 @@ function coinRequestCard(){
       <a class="buy" data-track="order-tiktok" href="${waLink('السلام عليكم كنت محتاج شحن عملات تيك توك')}" target="_blank" rel="noopener">${waIcon}اطلب</a>
     </div>
   </article>`;
+}
+
+
+// ---- كمية مخصصة: من 70 لحد 250,000 عملة ----
+const CUSTOM_MIN = 70, CUSTOM_MAX = 250000;
+function customPrice(n){
+  const tiers = [...TIKTOK].sort((a,b)=>a[0]-b[0]);
+  const exact = tiers.find(t => t[0] === n); if (exact) return exact[1];
+  let base = tiers[0]; for (const t of tiers) if (t[0] <= n) base = t;
+  return Math.round(n * (base[1]/base[0]) / 5) * 5;
+}
+function customCard(){
+  return `
+  <div class="custom" id="custom">
+    <div>
+      <h3>🎯 عاوز عدد معيّن؟</h3>
+      <p>اكتب عدد العملات اللي محتاجه (من ${fmt(CUSTOM_MIN)} لحد ${fmt(CUSTOM_MAX)}) وهيظهرلك السعر على طول.</p>
+      <div class="in"><input id="cIn" type="text" inputmode="numeric" placeholder="مثلاً 12500" aria-label="عدد العملات"></div>
+      <div class="chips">${[1500,12500,25000,150000,200000,250000].map(v=>`<button type="button" data-v="${v}">${fmt(v)}</button>`).join('')}</div>
+    </div>
+    <div class="res">
+      <small>السعر</small>
+      <div class="big" id="cPrice">—</div>
+      <div class="err" id="cErr"></div>
+      <a class="buy" id="cBuy" data-track="buy-tiktok-custom" aria-disabled="true" href="#" target="_blank" rel="noopener">${waIcon}اطلب العدد ده</a>
+    </div>
+  </div>`;
+}
+function bindCustom(){
+  const inp = document.getElementById('cIn'); if (!inp) return;
+  const out = document.getElementById('cPrice'), err = document.getElementById('cErr'), buy = document.getElementById('cBuy');
+  const toEn = v => v.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[^0-9]/g,'');
+  function upd(){
+    const n = parseInt(toEn(inp.value) || '0', 10);
+    if (!n){ out.textContent='—'; err.textContent=''; buy.setAttribute('aria-disabled','true'); return; }
+    if (n < CUSTOM_MIN || n > CUSTOM_MAX){
+      out.textContent='—'; err.textContent = `العدد لازم يكون من ${fmt(CUSTOM_MIN)} لحد ${fmt(CUSTOM_MAX)}`;
+      buy.setAttribute('aria-disabled','true'); return; }
+    const p = customPrice(n);
+    out.innerHTML = `${fmt(p)} <span>ج.م</span>`; err.textContent = '';
+    buy.href = waLink(`السلام عليكم كنت محتاج شحن ${fmt(n)} عملة تيك توك (عدد مخصص) بسعر ${fmt(p)} جنيه`);
+    buy.removeAttribute('aria-disabled');
+  }
+  inp.addEventListener('input', upd);
+  document.querySelectorAll('#custom .chips button').forEach(b => b.addEventListener('click', () => { inp.value = b.dataset.v; upd(); }));
 }
 
 function route(){
@@ -464,8 +529,9 @@ function route(){
   }
   if (key === 'itunes' || key === 'countries') return show('countries');
   if (key === 'tiktok'){
-    document.getElementById('tiktokGrid').innerHTML = TIKTOK.length
-      ? TIKTOK.map(([n,p]) => coinCard(n,p)).join('') : coinRequestCard();
+    document.getElementById('tiktokGrid').innerHTML = customCard() + (TIKTOK.length
+      ? TIKTOK.map(([n,p]) => coinCard(n,p)).join('') : coinRequestCard());
+    bindCustom();
     return show('tiktok');
   }
   SECS.forEach(x => x.hidden = x.id !== 'products');
@@ -474,6 +540,7 @@ function route(){
 document.querySelectorAll('.product').forEach(b => b.addEventListener('click', () => { location.hash = b.dataset.go; }));
 document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => { location.hash = b.dataset.back; }));
 document.getElementById('itunesCnt').textContent = COUNTRIES.length + ' دول';
+document.getElementById('ttFace').innerHTML = '<span class="ico">🪙</span><b>TikTok Coins</b>';
 document.getElementById('tiktokCnt').textContent = TIKTOK.length ? TIKTOK.length + ' باقة' : 'متاح بالطلب';
 window.addEventListener('hashchange', route);
 route();
