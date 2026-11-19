@@ -197,7 +197,9 @@ a{color:inherit;text-decoration:none}
 @media(max-width:640px){.info{grid-template-columns:1fr}}
 
 /* ===== How ===== */
-.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0 50px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:10px 0 34px}
+.how.how4{grid-template-columns:repeat(4,1fr);margin-bottom:12px}
+.how-note{color:var(--mint);font-size:14px;font-weight:700;margin-bottom:40px}
 .step{padding:20px;border-radius:18px;background:rgba(15,37,56,.6);border:1px solid var(--line)}
 .step b{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(16,185,129,.15);color:var(--emerald);font-weight:800;margin-bottom:10px}
 .step h3{font-weight:800;font-size:16px}
@@ -219,7 +221,7 @@ footer .links a:hover{color:var(--emerald)}
 
 @media(max-width:640px){
   .nav{display:none}
-  .how{grid-template-columns:1fr}
+  .how,.how.how4{grid-template-columns:1fr}
   .grid{grid-template-columns:repeat(2,1fr);gap:12px}
   .card{padding:10px;border-radius:16px}
   .gift-val{font-size:17px}
@@ -320,11 +322,23 @@ footer .links a:hover{color:var(--emerald)}
   </section>
 
   <section id="how" class="sec">
-    <div class="sec-head"><h2>طريقة الشراء</h2></div>
-    <div class="how">
-      <div class="step"><b>1</b><h3>اختار الفئة</h3><p>اختار دولة حسابك، وبعدين الفئة اللي محتاجها.</p></div>
-      <div class="step"><b>2</b><h3>اضغط شراء</h3><p>هيفتحلك الواتساب برسالة جاهزة فيها طلبك، ابعتها بس.</p></div>
-      <div class="step"><b>3</b><h3>استلم الكود</h3><p>بعد الدفع هيوصلك الكود فوراً مع لينك الاسترداد المباشر.</p></div>
+    <div class="how-group" id="howItunes">
+      <div class="sec-head"><h2>طريقة الشراء — كروت ايتونز</h2></div>
+      <div class="how">
+        <div class="step"><b>1</b><h3>اختار الفئة</h3><p>اختار دولة حسابك، وبعدين الفئة اللي محتاجها.</p></div>
+        <div class="step"><b>2</b><h3>اضغط شراء</h3><p>هيفتحلك الواتساب برسالة جاهزة فيها طلبك، ابعتها بس.</p></div>
+        <div class="step"><b>3</b><h3>استلم الكود</h3><p>بعد الدفع هيوصلك الكود فوراً مع لينك الاسترداد المباشر.</p></div>
+      </div>
+    </div>
+    <div class="how-group" id="howTiktok">
+      <div class="sec-head"><h2>طريقة الشحن — عملات تيك توك</h2></div>
+      <div class="how how4">
+        <div class="step"><b>1</b><h3>اختار الباقة</h3><p>اختار عدد العملات واضغط شراء، هيفتحلك الواتساب برسالة طلبك.</p></div>
+        <div class="step"><b>2</b><h3>افتح اللينك</h3><p>هنبعتلك لينك على الواتساب، افتحه واضغط «نعم، أنا».</p></div>
+        <div class="step"><b>3</b><h3>ابعتلنا الكود</h3><p>هيوصلك كود على رقمك أو إيميلك، ابعتهولنا على الواتساب.</p></div>
+        <div class="step"><b>4</b><h3>استلم العملات</h3><p>بنشحن العملات على حسابك على طول، وخلاص كده.</p></div>
+      </div>
+      <p class="how-note">🔒 ابعت الكود لينا بس على رقمنا الرسمي 01080236574، ومتشاركهوش مع أي حد تاني.</p>
     </div>
   </section>
 </main>
@@ -517,6 +531,10 @@ function bindCustom(){
   document.querySelectorAll('#custom .chips button').forEach(b => b.addEventListener('click', () => { inp.value = b.dataset.v; upd(); }));
 }
 
+function howFor(which){
+  document.getElementById('howItunes').hidden = which === 'tiktok';
+  document.getElementById('howTiktok').hidden = which === 'itunes';
+}
 function route(){
   const key = location.hash.slice(1);
   const c = COUNTRIES.find(x => x.key === key);
@@ -525,15 +543,18 @@ function route(){
     document.getElementById('pricesSub').textContent = `للحسابات المسجلة على متجر ${c.name}`;
     document.getElementById('priceGrid').innerHTML = c.prices.length
       ? c.prices.map(([v,p]) => priceCard(c,v,p)).join('') : requestCard(c);
+    howFor('itunes');
     return show('prices');
   }
-  if (key === 'itunes' || key === 'countries') return show('countries');
+  if (key === 'itunes' || key === 'countries'){ howFor('itunes'); return show('countries'); }
   if (key === 'tiktok'){
     document.getElementById('tiktokGrid').innerHTML = customCard() + (TIKTOK.length
       ? TIKTOK.map(([n,p]) => coinCard(n,p)).join('') : coinRequestCard());
     bindCustom();
+    howFor('tiktok');
     return show('tiktok');
   }
+  howFor('all');
   SECS.forEach(x => x.hidden = x.id !== 'products');
   if (key === 'products') document.getElementById('products').scrollIntoView({behavior:'smooth'});
 }
